@@ -1,4 +1,4 @@
-# cowl
+# Cowl
 The Cowl programming language
 
 Dependency: Python
