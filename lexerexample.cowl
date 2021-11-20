@@ -1,0 +1,17 @@
+'''
+fn x = () {
+
+}
+
+fn y 
+'''
+
+fn main() {
+    x = "hi"
+
+}
+
+
+#################################
+
+[DECLARATION: fn][VARIABLE: main][TUPLE: ()][CODEBLOCK: [VARIABLE: x][OPERATION: =][STRING: "hi"]]
