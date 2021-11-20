@@ -1,6 +1,7 @@
 import os
 import sys
 import enum
+from functools import reduce
 
 class Vartype(enum.Enum):
     Mutable = 0
@@ -22,7 +23,6 @@ class Vartype(enum.Enum):
     Func = 8
     Fn = 8
     Class = 9
-    Enum = 10
 
 #########################################################
 #                       VARIABLES                       #
@@ -76,32 +76,29 @@ class List(Variable):
             return True
         return False
         
-class String(Variable):
+class String(List):
 
-    def integrity(self):
-        if type(self.value) == list:
-            return True
-        return False
+    def integrity(self): #a string must be a list of characters
+        return (super().integrity() and reduce((lambda x, y: type(y) == str and len(y) == 1 and x), self.value, True))
         
 class Dictionary(Variable):
 
     def integrity(self):
-        if type(self.value) == Dictionary:
+        if type(self.value) == dict:
             return True
         return False
 
 class Function(Variable):
 
     def integrity(self):
+        if type(self.value) == str:
+            return True
+        return False
         
 class Class(Variable):
 
     def integrity(self):
-        
-class Enum(Variable):
-
-    def integrity(self):
-
+        pass
 
 
 class Interpreter():
@@ -112,7 +109,7 @@ class Interpreter():
 
     def operation(self, operation, operand, operand1 = None):
         if operation == "-": #negate
-            if operand.type.value = 1: #Boolean
+            if operand.type.value == 1: #Boolean
                 if operand.value:
                     return
                 pass
