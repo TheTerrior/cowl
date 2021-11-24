@@ -4,8 +4,8 @@ import enum
 from functools import reduce
 
 class Vartype(enum.Enum):
-    Mutable = 0
-    Mut = 0
+    #Mutable = 0
+    #Mut = 0
     Boolean = 1
     Bool = 1
     Integer = 2
@@ -65,16 +65,38 @@ class Number(Variable):
 class Tuple(Variable):
 
     def integrity(self):
-        if type(self.value) == tuple:
+        if isinstance(self.value, tuple):
             return True
         return False
         
 class List(Variable):
 
     def integrity(self):
-        if type(self.value) == list:
+        if isinstance(self.value, list):
             return True
         return False
+
+    '''
+    methods:
+
+    length, reverse, append [to end], pop(index), insert(index, value),
+    contains(value), find(value), rfind(value), copy
+
+
+    other:
+
+    allow the use of []
+    single integer means retrieve item at that index
+    negative integer means subtract that index from length of string, -1 is final item in list
+    allow the use of : in []
+    single colon means return the entire list (returns reference, unlike .copy())
+    integer before means index from start of list until the second integer
+    integer after means index from first index until end of list
+    all of these will return a reference to the sublist or item in list
+    
+    
+    
+    '''
         
 class String(List):
 
@@ -84,14 +106,14 @@ class String(List):
 class Dictionary(Variable):
 
     def integrity(self):
-        if type(self.value) == dict:
+        if isinstance(self.value, dict):
             return True
         return False
 
 class Function(Variable):
 
     def integrity(self):
-        if type(self.value) == str:
+        if isinstance(self.value, str):
             return True
         return False
         
@@ -100,6 +122,83 @@ class Class(Variable):
     def integrity(self):
         pass
 
+
+###########################################################
+#                       INTERPRETER                       #
+###########################################################
+
+'''
+TODO
+
+walrus operator: :=
+    assigns a value to a variable, can do so in any statement anywhere really, but most often in a loop or conditional
+
+assigning more than one variable at a time: (x, y) = f(0)
+    requires f to return a tuple, (x, y) will be read as a parameter tuple
+    NOTE: assignment operator will look for value before and after, function will accept both
+        the first parameter will allow tuples, such as this one
+
+lists should be able to span multiple lines, along with dictionaries and tuples
+
+""" should allow multiline strings, triple apostrophe too
+
+allow the use of references, clarify how references work
+
+univeral functions:
+    length
+    int
+    string
+    list
+    tuple
+    dictionary
+    number
+    bool
+    pointer
+
+
+'''
+
+class Lexer():
+
+    #tokens that could be written within a variable name
+    STRINGTOKENS = ['if', 'else', 'elif', 'while', 'for',
+        'boolean', 'bool', 'integer', 'int', 'number', 'num', 'tuple', 'tup',
+        'list', 'string', 'str', 'dictionary', 'dict', 'function', 'func', 'fn', 'class']
+
+    #tokens that (as long as they're not in a string), will always be the operator they represent
+    OPERATORTOKENS = ['+', '-', '/', '*', '%', '^', '(', ')', '[', ']', '{', '}', "'", '"',
+        '=', '==', '>', '<', '>=', '<=', '!', '!=', ':=', ',', '&']
+
+    '''
+    GENERAL RULES
+
+    any buffer that starts with an integer will always be some sort of number
+    '''
+
+    def is_token(self, buffer):
+        #having whitespace at the end means the token is finalized in terms of the code
+        #no whitespace means we need to be careful about certain possibilities, like 'if'
+        if buffer[len(buffer) - 1] in [' ', '\n']:
+            if 
+
+    def lex(self, input):
+        #input is given as a file, which will be interpreted word by word
+        with open(input, "r") as file:
+            #read file char by char
+            buffer = "" #where chars will be placed if they fit no token
+            cur = file.read(1)
+            tokens = []
+            while cur != "": #while we haven't reached the end of the file
+                buffer += cur
+                #check if buffer matches any token
+                if token := self.is_token(buffer): #if a value was returned, clear buffer
+                    buffer = ""
+                    tokens.append(token)
+
+class Parser():
+
+    def __init__(self):
+        pass
 
 class Interpreter():
 
