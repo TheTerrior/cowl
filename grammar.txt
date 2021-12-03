@@ -1,0 +1,17 @@
+Note: Lexicon turns a literal into a variable, Grammar then takes variables and defines them
+Note: '' implies a literal, literally written out as such, used for operators, variable names, functions etc, will be implemented as a Literal token
+Note: nones and nulls in languages: C++ (NULL), Python (None), Java (null), PHP (NULL), Julia (missing), R (NA), Ruby (nil), JavaScript (null), Go (nil), Scala (null), Haskell (Nothing)
+
+S                   => tab S | S newline S | VariableAssignment | VariableDeclaration | none | 'pass' | Return
+Return              => 'return' | 'return' Expression
+VariableDeclaration => VariableType variablename | VariableType '=' variablename
+VariableAssignment  => variablename '=' Expression | ArgumentTuple '=' Expression
+VariableType        => 'Boolean' | 'Bool' | 'Integer' | 'Int' | 'Number' | 'Num' | 'Tuple' | 'Tup' | 'List' | 'String' | 'Str'| 'Dictionary' | 'Dict' | 'Function' | 'Func' | 'Fn' | 'Class' |
+                        'boolean' | 'bool' | 'integer' | 'int' | 'number' | 'num' | 'tuple' | 'tup' | 'list' | 'string' | 'str'| 'dictionary' | 'dict' | 'function' | 'func' | 'fn' | 'class'
+Expression          => Boolean | Integer | Number | Tuple | List | String | Dictionary | Function | Class | variablename | 'null'
+ArgumentTuple       => '(' ArgumentList ')'
+ArgumentList            => Expression | Expression ',' Argument | variablename '=' Expression
+Operation           => ArithmeticOperator | BooleanOperator
+ArithmeticOperator  => '+' | '-' | '*' | '/' | '%'
+BooleanOperator     => '==' | '>=' | '<=' | '<' | '>' | '!=' | '||' | '&&'
+Integer             => integer | Integer Operation Integer | '-'integer | Function
