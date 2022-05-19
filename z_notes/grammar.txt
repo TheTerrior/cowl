@@ -1,3 +1,29 @@
+########################################
+################  V2.0  ################
+########################################
+
+!block => expression | var_type | 
+type_name => Boolean | Integer | Tuple | List | Array | Dictionary | Char | String
+var_type => bool | int | tuple | list | array | dict | char | string | var | dyn | fn
+!oo_type => struct | impl
+!param =>
+!fn_action => return | return expression
+!loop_action =>
+!expression => null | 
+
+
+Keywords: if else elif while do pub bool int tuple list array dict char string var dyn fn break continue pass return
+    for void struct impl null
+
+var_name -> name of a variable, represented as a number internally
+var => compiler will automatically interpret the type of the variable
+dyn => compiler will allow the variable to change its type
+
+
+########################################
+################  V1.0  ################
+########################################
+
 Note: Lexicon turns a literal into a variable, Grammar then takes variables and defines them
 Note: '' implies a literal, literally written out as such, used for operators, variable names, functions etc, will be implemented as a Literal token
 Note: nones and nulls in languages: C++ (NULL), Python (None), Java (null), PHP (NULL), Julia (missing), R (NA), Ruby (nil), JavaScript (null), Go (nil), Scala (null), Haskell (Nothing)
@@ -15,3 +41,6 @@ Operation           => ArithmeticOperator | BooleanOperator
 ArithmeticOperator  => '+' | '-' | '*' | '/' | '%'
 BooleanOperator     => '==' | '>=' | '<=' | '<' | '>' | '!=' | '||' | '&&'
 Integer             => integer | Integer Operation Integer | '-'integer | Function
+
+
+

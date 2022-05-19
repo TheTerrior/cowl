@@ -1,0 +1,12 @@
+tokenizer - take raw input and start splitting it up into tokens
+lexer - take the tokens and categorize them into types of tokens (may also just take in raw input)
+parser - take the lexigrams and create a syntax tree
+
+all variables are nullable (ie calling a variable that does not yet exist)
+an invalid conversion from string to int would return null (String.to_int() would return null)
+
+int x = 3
+[var_type][var_name][=][expression: int]
+
+fn test = (...) int {...}
+[var_type][var_name][=][param][var_type][block]
