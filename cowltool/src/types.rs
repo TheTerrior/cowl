@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use crate::smartlist::SmartList;
 
 /*
@@ -9,10 +9,10 @@ boost the pointer type from i32 to i128 to allow for a much greater number of el
 
 // holds both the stack and the heap, where call frames can be popped once the frame is out of scope
 pub struct Memory {
-    pointer_stack: Vec<HashMap<u32, Pointer>>, //stack frames of pointers
     call_stack: Vec<HashMap<u32, Variable>>, //stack frames of variable values
-    cur_pointer: u32, //decides what new name we can assign to a new pointer
+    pointer_stack: Vec<HashMap<u32, Pointer>>, //stack frames of pointers
     cur_call: u32, //decides what new name we can assign to a new variable
+    cur_pointer: u32, //decides what new name we can assign to a new pointer
     //heap: Vec<Variable>, //may be deprecated later
 }
 
@@ -21,10 +21,10 @@ impl Memory {
     // create a new memory instance (one per interpreter)
     fn new() -> Memory {
         return Memory {
-            pointer_stack: Vec::new(),
-            call_stack: Vec::new(),
-            cur_pointer: 0,
+            call_stack: Vec::with_capacity(1024),
+            pointer_stack: Vec::with_capacity(1024),
             cur_call: 0,
+            cur_pointer: 0,
         };
     }
 
@@ -34,33 +34,83 @@ impl Memory {
         return &mut self.call_stack[len];
     }
 
-    // returns mutable reference to top of variable_stack
-    fn cur_variable_stack(&mut self) -> &mut HashMap<u32, Pointer> {
+    // returns mutable reference to top of pointer_stack
+    fn cur_pointer_stack(&mut self) -> &mut HashMap<u32, Pointer> {
         let len = self.pointer_stack.len();
         return &mut self.pointer_stack[len];
+    }
+
+    fn new_call_stack(&mut self) {
+
+    }
+
+    fn new_pointer_stack(&mut self) {
+        
     }
 
     fn pop_call_stack(&mut self) {
 
     }
 
-    // initialize a new empty pointer
-    fn create(&mut self) -> u32 {
-        let new_var = Pointer {
-            var_type: VarTypeRaw::Dyn,
-            data: None,
-        };
-        let index: u32 = self.cur_pointer.clone();
-        self.cur_variable_stack().insert(index, new_var);
-        return index;
+    fn pop_pointer_stack(&mut self) {
         
+    }
+
+    // creates a blank pointer, helper function for define_pointer
+    fn declare_pointer(&mut self, pointer_id: u32, pointer_type: PointerType) {
+        self.cur_pointer_stack().insert(pointer_id, Pointer::new(pointer_type)); //insert a new pointer into the pointer stack
+    }
+
+    // define a pointer, whether or not it exists, and point it to the given data
+    fn define_pointer(&mut self, pointer_id: u32, pointer_type: PointerType, data: VarType) {
+        match self.find_var(pointer_id) {
+            None => { //create the new pointer
+                self.declare_pointer(pointer_id, pointer_type);
+            }
+            Some(var_ref) => { //pointer already exists
+
+            }
+        }
+    }
+
+    // like define, however requires the variable to already exist, modifies instead of redefines the pointer at id, may cause errors at many points
+    fn assign_variable(&mut self, pointer_id: u32, data: VarType) {
+        let var_id: u32 = self.cur_pointer_stack().get(&pointer_id).unwrap().data.unwrap(); //get id of the internal variable
+        self.find_var(var_id).unwrap().data = data; //modify the variable
+    }
+
+    // if a variable with the given id exists, find it and return a reference to it
+    fn find_var(&mut self, id: u32) -> Option<&mut Variable> {
+        for i in (0..self.call_stack.len()).rev() {
+            if self.call_stack[i].contains_key(&id) {
+                return self.call_stack[i].get_mut(&id);
+            }
+        }
+        return None;
     }
 }
 
 // stored in virtual memory, used to hold information about a variable's information
 struct Variable {
     data: VarType, //stores the type of variable and the data
-    pointers: Vec<u32>, //keeps a list of all the pointers that refer to this variable
+    pointers: HashSet<u32>, //keeps a list of all the pointers that refer to this variable
+}
+
+impl Variable {
+    fn new(data: VarType) -> Variable {
+        return Variable {
+            data: data,
+            pointers: HashSet::new(),
+        };
+    }
+
+    fn add_pointer(&mut self, pointer: u32) {
+        self.pointers.insert(pointer);
+    }
+
+    fn remove_pointer(&mut self, pointer: u32) {
+        self.pointers.remove(&pointer);
+    }
 }
 
 // utilized by the Variable struct
@@ -80,12 +130,12 @@ pub enum VarType {
     Array(Vec<u32>),
     Dict(HashMap<u32,i32>),
     List(Vec<u32>),
-    Struct, //tba
     String(Vec<u32>),
+    Struct, //tba
 }
 
 // utilized by the Pointer struct
-pub enum VarTypeRaw {
+pub enum PointerType {
     //simple types
     Bool,
     Char,
@@ -109,9 +159,23 @@ pub enum VarTypeRaw {
     Var,
 }
 
-struct Pointer {
-    var_type: VarTypeRaw,
+// this structure is the front-end for a variable, generally immutable, replaced rather than modified
+pub struct Pointer {
+    var_type: PointerType,
     data: Option<u32>, //simply points to a location in memory, which can either be a complex or simple variable
+}
+
+impl Pointer {
+    fn new(pointer_type: PointerType) -> Pointer {
+        return Pointer {
+            var_type: pointer_type,
+            data: None,
+        }
+    }
+
+    fn change_location(&mut self, location: Option<u32>) {
+        self.data = location;
+    }
 }
 
 
