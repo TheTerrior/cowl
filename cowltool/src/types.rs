@@ -6,18 +6,6 @@ TODO
 boost the pointer type from i32 to i128 to allow for a much greater number of elements and variables
 */
 
-
-/*
-// holds both the stack and the heap, where call frames can be popped once the frame is out of scope
-pub struct Memory {
-    call_stack: Vec<HashMap<u32, Variable>>, //stack frames of variable values
-    pointer_stack: Vec<HashMap<u32, Pointer>>, //stack frames of pointers
-    cur_call: u32, //decides what new name we can assign to a new variable
-    cur_pointer: u32, //decides what new name we can assign to a new pointer
-    //heap: Vec<Variable>, //may be deprecated later
-}
-*/
-
 pub struct Memory {
     pointer_stack: Vec<HashMap<u32, Pointer>>, //stack frames of pointers
     heap: SmartList<Variable>, //collection of all Variables (can be referenced directly via pointer or via a complex type)
@@ -47,42 +35,6 @@ impl Memory {
         
     }
 
-    /* 
-    // creates a blank pointer, helper function for define_pointer
-    fn declare_pointer(&mut self, pointer_id: u32, pointer_type: PointerType) -> &mut Pointer {
-        self.cur_pointer_stack().insert(pointer_id, Pointer::new(pointer_type)); //insert a new pointer into the pointer stack
-        return self.find_pointer_local(pointer_id).unwrap();
-    }
-
-    // define a pointer, whether or not it exists, and point it to the given data
-    fn define_pointer(&mut self, pointer_id: u32, pointer_type: PointerType, data: VarType) {
-        /*
-        if no pointer exists, create it
-        if pointer exists, then tell its variable that this pointer has been removed
-        
-        in both cases, tie the pointer to the newly created variable
-        */
-
-        if let PointerType::Dyn = pointer_type { // the pointer_type is dyn, so all types are valid and always will be
-            //define a pointer of type dyn
-        } else {
-            //type of pointer_type and data must match, var is wildcard though
-        }
-
-        self.create_var(data)
-
-
-        match pointer_option {
-            None => { //create the new pointer
-                pointer_ref = self.declare_pointer(pointer_id, pointer_type);
-            }
-            Some(var_ref) => { //pointer already exists
-                pointer_ref = var_ref;
-                self.find_var(pointer_ref.var_index.unwrap());
-            }
-        }
-    }
-    */
 
     // overwrites any previous pointer data if it existed, must receive an id to a Variable
     fn declare_pointer(&mut self, pointer_id: u32, pointer_type: PointerType, var_id: u32) -> Result<(), ()>{
@@ -94,14 +46,6 @@ impl Memory {
         pointer_pointer.var_index = Some(var_id);
         return Ok(());
     }
-
-    /* 
-    // like define, however requires the variable to already exist, modifies instead of redefines the pointer at id, may cause errors at many points
-    fn assign_variable(&mut self, pointer_id: u32, data: VarType) {
-        let var_id: u32 = self.cur_pointer_stack().get(&pointer_id).unwrap().data.unwrap(); //get id of the internal variable
-        self.find_pointer(var_id).unwrap().data = data; //modify the variable
-    }
-    */
 
     // if a pointer with the given id exists, find it and return a reference to it
     fn find_pointer_global(&mut self, pointer_id: u32) -> Option<&mut Pointer> {
@@ -223,48 +167,20 @@ impl Pointer {
 // i hate myself, why did i do this *facepalm*
 fn vartype_to_pointertype(var_type: &VarType) -> PointerType {
     match var_type {
-        VarType::Bool(_) => {
-            return PointerType::Bool;
-        },
-        VarType::Char(_) => {
-            return PointerType::Char;
-        },
-        VarType::Float32(_) => {
-            return PointerType::Float32;
-        },
-        VarType::Float64(_) => {
-            return PointerType::Float64;
-        },
-        VarType::Int8(_) => {
-            return PointerType::Int8;
-        },
-        VarType::Int16(_) => {
-            return PointerType::Int16;
-        },
-        VarType::Int32(_) => {
-            return PointerType::Int32;
-        },
-        VarType::Int64(_) => {
-            return PointerType::Int64;
-        },
-        VarType::Int128(_) => {
-            return PointerType::Int128;
-        },
-        VarType::Array(_) => {
-            return PointerType::Array;
-        },
-        VarType::Dict(_) => {
-            return PointerType::Dict;
-        },
-        VarType::List(_) => {
-            return PointerType::List;
-        },
-        VarType::String(_) => {
-            return PointerType::String;
-        },
-        VarType::Struct(_) => {
-            return PointerType::Struct;
-        },
+        VarType::Bool(_) => return PointerType::Bool,
+        VarType::Char(_) => return PointerType::Char,
+        VarType::Float32(_) => return PointerType::Float32,
+        VarType::Float64(_) => return PointerType::Float64,
+        VarType::Int8(_) => return PointerType::Int8,
+        VarType::Int16(_) => return PointerType::Int16,
+        VarType::Int32(_) => return PointerType::Int32,
+        VarType::Int64(_) => return PointerType::Int64,
+        VarType::Int128(_) => return PointerType::Int128,
+        VarType::Array(_) => return PointerType::Array,
+        VarType::Dict(_) => return PointerType::Dict,
+        VarType::List(_) => return PointerType::List,
+        VarType::String(_) => return PointerType::String,
+        VarType::Struct(_) => return PointerType::Struct
     }
 }
 
@@ -277,62 +193,3 @@ fn check_type_match(pointer_type: PointerType, var_type: VarType) -> bool {
     }
     return false;
 }
-
-/* 
-// main structure of a variable in Cowl, contains the different types a variable can be
-pub enum Variable {
-    Float32(Option<f32>),
-    Float64(Option<f64>),
-    Int8(Option<i8>),
-    Int16(Option<i16>),
-    Int32(Option<i32>),
-    Int64(Option<i64>),
-    Int128(Option<i128>),
-    List(Option<Box<List>>)
-}
-
-impl Variable {
-    pub fn new_list() -> Variable {
-        return Variable::List(Some(Box::new(List::new())));
-    }
-}
-
-pub struct List {
-    items: Vec<Variable>,
-    list_type: Option<Variable>
-}
-
-impl List {
-    fn new() -> List {
-        return List {
-            items: vec![],
-            list_type: None
-        }
-    }
-}
-
-// the main structure of the variable in Cowl
-//struct Variable<T> {
-//    val: Option<Type<T>>, //for simple types like integers and chars
-//}
-
-// Variable<>
-*/
-
-
-/*
-Simple Variables:
-int
-float
-bool
-
-Complex Variables:
-function
-struct
-impl?
-list
-array
-dictionary
-
-
-*/
