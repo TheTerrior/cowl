@@ -1,0 +1,3 @@
+# Reclassify .cl and .cowl as Cowl:
+*.cl linguist-language=Cowl
+*.cowl linguist-language=Cowl
