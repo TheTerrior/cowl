@@ -115,11 +115,11 @@ pub enum VarType {
     Int128(i128),
 
     //complex types, generally contain pointers to other data in the memory
-    Array(Vec<usize>),
-    Dict(HashMap<usize,i32>),
-    List(Vec<usize>),
-    String(Vec<usize>),
-    Struct(Option<usize>), //tba
+    Array(Vec<usize>),          //points to locations in the heap
+    Dict(HashMap<usize,usize>), //points to pairs of locations in the heap
+    List(Vec<usize>),           //points to locations in the heap
+    String(Vec<usize>),         //points to locations in the heap
+    Struct(Option<usize>),      //tba
 }
 
 // utilized by the Pointer struct
