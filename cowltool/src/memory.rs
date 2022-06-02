@@ -27,12 +27,14 @@ impl Memory {
         return &mut self.pointer_stack[len];
     }
 
+    // create a new stack frame on the pointer stack, should be called with every new scope, including the base scope
     fn new_pointer_stack(&mut self) {
-        
+        self.pointer_stack.push(HashMap::new());
     }
 
+    // pop the current stack frame, used when leaving a scope
     fn pop_pointer_stack(&mut self) {
-        
+        self.pointer_stack.pop();
     }
 
 

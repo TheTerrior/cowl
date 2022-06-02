@@ -1,12 +1,15 @@
 # The Cowl Programming Language
 See General Information below for more info about this language.
 
-## Installation
-TBA
-
 ## General Information
 This language is being written in my free time, just for fun and to gain programming experience.
 
-A programming language that is easy to learn and use, with a focus on new users. The goal is a general-purpose, statically-typed language with functional and object-oriented features. Syntax is similar to C with some extra customizations. Associated filetypes are cl, cowl (both for code), and ccl (for bytecode).
+Cowl aims to be a general-purpose, statically-typed language that is easy to learn for new programmers. The language is compiled to bytecode, which is then interpreted. Syntax is reminiscent of C. Cowl files are stored as either .cl or .cowl, and Cowl bytecode is saved as a .ccl file.
 
-This language will be interpreted for the foreseeable future, with a possible compiler coming in the future if I'm willing to take on the daunting task. The interpreter will be written in Rust, which will ensure high performance and memory-safety. Code goes through a semi-compilation stage which converts the raw code into bytecode, much like Java. This bytecode can then be run by the interpreter.
+The bytecode compiler and the interpreter will both be written in Rust, which should ensure high performance.
+
+Notes:
+A true compiler may come in the future if I'm willing to take on the task, but I have no knowledge on how to make a compiler and I'm currently the only one working on this language.
+
+## Installation
+TBA
