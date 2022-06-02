@@ -13,7 +13,7 @@ pub struct Memory {
 
 impl Memory {
     
-    // create a new memory instance (one per interpreter)
+    // create a new memory instance (the struct should be a singleton though)
     fn new() -> Memory {
         return Memory {
             pointer_stack: Vec::with_capacity(1024),
@@ -57,6 +57,7 @@ impl Memory {
         return None;
     }
 
+    // if a pointer with the given id exists in the current stack frame, return reference
     fn find_pointer_local(&mut self, pointer_id: u32) -> Option<&mut Pointer> {
         let cur = self.cur_pointer_stack();
         if cur.contains_key(&pointer_id) {
@@ -180,7 +181,7 @@ fn vartype_to_pointertype(var_type: &VarType) -> PointerType {
         VarType::Dict(_) => return PointerType::Dict,
         VarType::List(_) => return PointerType::List,
         VarType::String(_) => return PointerType::String,
-        VarType::Struct(_) => return PointerType::Struct
+        VarType::Struct(_) => return PointerType::Struct,
     }
 }
 

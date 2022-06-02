@@ -63,7 +63,7 @@ impl<T> SmartList<T> {
         }
         match &self.data[index] {
             None => return None,
-            Some(_) => return self.data[index],
+            Some(_) => return self.data[index].as_mut(),
         }
     }
 }
