@@ -1,9 +1,10 @@
 use std::collections::VecDeque;
 
+// a vector that uses lazy deletion to achieve faster speeds and static indices
 pub struct SmartList<T> {
-    data: Vec<Option<T>>,
-    open: VecDeque<u32>,
-    cur: u32,
+    pub data: Vec<Option<T>>, //the actual vector of data, each element is nullable
+    open: VecDeque<usize>, //the list of open spaces within the vector
+    cur: usize, //the end index (cannot decrease)
 }
 
 impl<T> SmartList<T> {
@@ -29,31 +30,27 @@ impl<T> SmartList<T> {
     }
 
     // add a new element into the SmartList, returns the index that the item was inserted at
-    pub fn add(&mut self, item: T) -> u32 {
-        let index_raw: u32 = { //assign index_raw to either the next open gap or the next space
-            if self.open.len() > 0 {
-                self.open.pop_front().unwrap()
-            } else {
-                self.cur += 1;
-                self.cur - 1
-            }
-        };
-        let index: usize = index_raw.try_into().unwrap();
-        self.data[index] = Some(item); //insert item into next open space
-        return index_raw;
+    pub fn add(&mut self, item: T) -> usize {
+        if self.open.len() < 1 {
+            self.data.push(Some(item)); //push item to the back of the vector if no open spaces
+            self.cur += 1;
+            return self.cur - 1;
+        }
+        let index: usize = self.open.pop_front().unwrap();
+        self.data[index] = Some(item); //insert item into the next open space
+        return index;
     }
 
     // remove an element at the given index
-    pub fn remove(&mut self, index: u32) -> Result<(), ()> {
-        let loc: usize = index.try_into().unwrap();
+    pub fn remove(&mut self, index: usize) -> Result<(), ()> {
         if index >= self.cur { //if index out of bounds, return Err
             return Err(());
         }
-        if let None = self.data[loc] { //if index is None, aka a gap, return Err
+        if let None = self.data[index] { //if index is None, aka a gap, return Err
             return Err(());
         }
         self.open.push_back(index); //add the new gap into self.open, pop, and return
-        self.data[loc] = None;
+        self.data[index] = None;
         return Ok(());
     }
 

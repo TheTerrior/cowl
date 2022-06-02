@@ -7,7 +7,7 @@ boost the pointer type from i32 to i128 to allow for a much greater number of el
 */
 
 pub struct Memory {
-    pointer_stack: Vec<HashMap<u32, Pointer>>, //stack frames of pointers
+    pointer_stack: Vec<HashMap<usize, Pointer>>, //stack frames of pointers
     heap: SmartList<Variable>, //collection of all Variables (can be referenced directly via pointer or via a complex type)
 }
 
@@ -22,7 +22,7 @@ impl Memory {
     }
 
     // returns mutable reference to top of pointer_stack
-    fn cur_pointer_stack(&mut self) -> &mut HashMap<u32, Pointer> {
+    fn cur_pointer_stack(&mut self) -> &mut HashMap<usize, Pointer> {
         let len = self.pointer_stack.len();
         return &mut self.pointer_stack[len];
     }
@@ -39,7 +39,7 @@ impl Memory {
 
 
     // overwrites any previous pointer data if it existed, must receive an id to a Variable
-    fn declare_pointer(&mut self, pointer_id: u32, pointer_type: PointerType, var_id: u32) -> Result<(), ()>{
+    fn declare_pointer(&mut self, pointer_id: usize, pointer_type: PointerType, var_id: usize) -> Result<(), ()>{
         self.cur_pointer_stack().insert(pointer_id, Pointer::new(pointer_type)); //insert new pointer into the stack with the given id
         if vartype_to_pointertype(&self.find_var(var_id).unwrap().data) != pointer_type { //ensure the types match up
             return Err(());
@@ -50,7 +50,7 @@ impl Memory {
     }
 
     // if a pointer with the given id exists, find it and return a reference to it
-    fn find_pointer_global(&mut self, pointer_id: u32) -> Option<&mut Pointer> {
+    fn find_pointer_global(&mut self, pointer_id: usize) -> Option<&mut Pointer> {
         for i in (0..self.pointer_stack.len()).rev() {
             if self.pointer_stack[i].contains_key(&pointer_id) {
                 return self.pointer_stack[i].get_mut(&pointer_id);
@@ -60,7 +60,7 @@ impl Memory {
     }
 
     // if a pointer with the given id exists in the current stack frame, return reference
-    fn find_pointer_local(&mut self, pointer_id: u32) -> Option<&mut Pointer> {
+    fn find_pointer_local(&mut self, pointer_id: usize) -> Option<&mut Pointer> {
         let cur = self.cur_pointer_stack();
         if cur.contains_key(&pointer_id) {
             return cur.get_mut(&pointer_id);
@@ -68,11 +68,11 @@ impl Memory {
         return None;
     }
 
-    fn find_var(&mut self, var_id: u32) -> Option<&mut Variable> {
+    fn find_var(&mut self, var_id: usize) -> Option<&mut Variable> {
         return self.heap.retrieve(var_id.try_into().unwrap());
     }
 
-    fn create_var(&mut self, data: Variable) -> u32 {
+    fn create_var(&mut self, data: Variable) -> usize {
         return self.heap.add(data);
     }
 }
@@ -80,7 +80,7 @@ impl Memory {
 // stored in virtual memory, used to hold information about a variable's information
 struct Variable {
     data: VarType, //stores the type of variable and the data
-    pointers: HashSet<u32>, //keeps a list of all the pointers that refer to this variable
+    pointers: HashSet<usize>, //keeps a list of all the pointers that refer to this variable
 }
 
 impl Variable {
@@ -91,11 +91,11 @@ impl Variable {
         };
     }
 
-    fn add_pointer(&mut self, pointer: u32) {
+    fn add_pointer(&mut self, pointer: usize) {
         self.pointers.insert(pointer);
     }
 
-    fn remove_pointer(&mut self, pointer: u32) {
+    fn remove_pointer(&mut self, pointer: usize) {
         self.pointers.remove(&pointer);
     }
 }
@@ -115,11 +115,11 @@ pub enum VarType {
     Int128(i128),
 
     //complex types, generally contain pointers to other data in the memory
-    Array(Vec<u32>),
-    Dict(HashMap<u32,i32>),
-    List(Vec<u32>),
-    String(Vec<u32>),
-    Struct(Option<i32>), //tba
+    Array(Vec<usize>),
+    Dict(HashMap<usize,i32>),
+    List(Vec<usize>),
+    String(Vec<usize>),
+    Struct(Option<usize>), //tba
 }
 
 // utilized by the Pointer struct
@@ -151,7 +151,7 @@ pub enum PointerType {
 // this structure is the front-end for a variable, generally immutable, replaced rather than modified
 pub struct Pointer {
     var_type: PointerType,
-    var_index: Option<u32>, //simply points to a location in memory, which can either be a complex or simple variable
+    var_index: Option<usize>, //simply points to a location in memory, which can either be a complex or simple variable
 }
 
 impl Pointer {
@@ -162,7 +162,7 @@ impl Pointer {
         }
     }
 
-    fn change_location(&mut self, var_index: Option<u32>) {
+    fn change_location(&mut self, var_index: Option<usize>) {
         self.var_index = var_index;
     }
 }
