@@ -1,0 +1,5 @@
+Cowl bytecode will consist of instructions, with each instruction name taking up 8 bits, and the length of an instruction will depend on the instruction itself.
+
+[load variable: 8 bits][pointer index: 32 bits]
+[save variable: 8 bits][pointer index: 32 bits][variable type: ][variable value: ]
+[operation: 8 bits][operation type: 8 bits][first operand index: 32 bits][second operand index: 32 bits]
