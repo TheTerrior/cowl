@@ -119,6 +119,9 @@ pub enum VarType {
     Dict(HashMap<usize,usize>), //points to pairs of locations in the heap
     List(Vec<usize>),           //points to locations in the heap
     String(Vec<usize>),         //points to locations in the heap
+
+    //special types
+    Func(Option<usize>),        //tba
     Struct(Option<usize>),      //tba
 }
 
@@ -141,6 +144,9 @@ pub enum PointerType {
     Dict,
     List,
     String,
+
+    //special types
+    Func,
     Struct,
 
     //weak types
@@ -170,20 +176,23 @@ impl Pointer {
 // i hate myself, why did i do this *facepalm*
 fn vartype_to_pointertype(var_type: &VarType) -> PointerType {
     match var_type {
-        VarType::Bool(_) => return PointerType::Bool,
-        VarType::Char(_) => return PointerType::Char,
+        VarType::Bool(_)    => return PointerType::Bool,
+        VarType::Char(_)    => return PointerType::Char,
         VarType::Float32(_) => return PointerType::Float32,
         VarType::Float64(_) => return PointerType::Float64,
-        VarType::Int8(_) => return PointerType::Int8,
-        VarType::Int16(_) => return PointerType::Int16,
-        VarType::Int32(_) => return PointerType::Int32,
-        VarType::Int64(_) => return PointerType::Int64,
-        VarType::Int128(_) => return PointerType::Int128,
-        VarType::Array(_) => return PointerType::Array,
-        VarType::Dict(_) => return PointerType::Dict,
-        VarType::List(_) => return PointerType::List,
-        VarType::String(_) => return PointerType::String,
-        VarType::Struct(_) => return PointerType::Struct,
+        VarType::Int8(_)    => return PointerType::Int8,
+        VarType::Int16(_)   => return PointerType::Int16,
+        VarType::Int32(_)   => return PointerType::Int32,
+        VarType::Int64(_)   => return PointerType::Int64,
+        VarType::Int128(_)  => return PointerType::Int128,
+
+        VarType::Array(_)   => return PointerType::Array,
+        VarType::Dict(_)    => return PointerType::Dict,
+        VarType::List(_)    => return PointerType::List,
+        VarType::String(_)  => return PointerType::String,
+
+        VarType::Func(_)    => return PointerType::Func,
+        VarType::Struct(_)  => return PointerType::Struct,
     }
 }
 

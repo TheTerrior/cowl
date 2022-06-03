@@ -1,7 +1,9 @@
-use smartlist::SmartList;
-
-mod memory;
 mod smartlist;
+mod memory;
+mod alu;
+mod processor;
+
+use smartlist::SmartList;
 
 fn test_smartlist() {
     let mut sl: SmartList<i32> = SmartList::new();

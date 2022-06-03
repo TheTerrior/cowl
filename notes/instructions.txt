@@ -1,0 +1,25 @@
+Cowl bytecode will consist of instructions, with each instruction name taking up 8 bits, and the length of an instruction will depend on the instruction itself.
+
+[psize: 1 bit] (denotes whether psize, or pointer size, is 32 or 64)
+[load variable: 8 bits][pointer index: psize bits]
+[save variable: 8 bits][pointer index: psize bits][variable type: 4 bits][variable value: ]
+    variable values (depending on variable type):
+        Bool -      1 bit
+        Char -      32 bits
+        Float32 -   32 bits
+        Float64 -   64 bits
+        Int8 -      8 bits
+        Int16 -     16 bits
+        Int32 -     32 bits
+        Int64 -     64 bits
+        Int128 -    128 bits
+
+        Array -     tba
+        Dict -
+        List -
+        String -
+
+        Func -
+        Struct -
+
+[operation: 8 bits][operation type: 8 bits][first operand index: psize bits][second operand index: psize bits]
