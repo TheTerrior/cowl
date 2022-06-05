@@ -113,11 +113,17 @@ pub enum VarType {
     Int32(i32),
     Int64(i64),
     Int128(i128),
+    UInt8(u8),
+    UInt16(u16),
+    UInt32(u32),
+    UInt64(u64),
+    UInt128(u128),
 
     //complex types, generally contain pointers to other data in the memory
     Array(Vec<usize>),          //points to locations in the heap
     Dict(HashMap<usize,usize>), //points to pairs of locations in the heap
     List(Vec<usize>),           //points to locations in the heap
+    Set(HashSet<usize>),        //points to locations in the heap
     String(Vec<usize>),         //points to locations in the heap
 
     //special types
@@ -138,11 +144,17 @@ pub enum PointerType {
     Int32,
     Int64,
     Int128,
+    UInt8,
+    UInt16,
+    UInt32,
+    UInt64,
+    UInt128,
 
     //complex types
     Array,
     Dict,
     List,
+    Set,
     String,
 
     //special types
@@ -185,10 +197,16 @@ fn vartype_to_pointertype(var_type: &VarType) -> PointerType {
         VarType::Int32(_)   => return PointerType::Int32,
         VarType::Int64(_)   => return PointerType::Int64,
         VarType::Int128(_)  => return PointerType::Int128,
+        VarType::UInt8(_)    => return PointerType::UInt8,
+        VarType::UInt16(_)   => return PointerType::UInt16,
+        VarType::UInt32(_)   => return PointerType::UInt32,
+        VarType::UInt64(_)   => return PointerType::UInt64,
+        VarType::UInt128(_)  => return PointerType::UInt128,
 
         VarType::Array(_)   => return PointerType::Array,
         VarType::Dict(_)    => return PointerType::Dict,
         VarType::List(_)    => return PointerType::List,
+        VarType::Set(_)     => return PointerType::Set,
         VarType::String(_)  => return PointerType::String,
 
         VarType::Func(_)    => return PointerType::Func,

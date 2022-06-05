@@ -10,3 +10,16 @@ int x = 3
 
 fn test = (...) int {...}
 [var_type][var_name][=][param][var_type][block]
+
+
+
+
+*the var keyword only matters until the compiler, it is not present in the bytecode
+
+POINTERS:
+nullable
+weakly typed
+
+VARIABLES:
+not nullable
+strongly typed

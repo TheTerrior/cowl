@@ -1,8 +1,12 @@
 Cowl bytecode will consist of instructions, with each instruction name taking up 8 bits, and the length of an instruction will depend on the instruction itself.
 
-[psize: 1 bit] (denotes whether psize, or pointer size, is 32 or 64)
+[psize: 1 bit] (denotes whether psize, or pointer size, is 32 or 64) #MAY BE DEPRECATED IN FAVOR OF AN ERROR, so theres not two types of bytecode
 [load variable: 8 bits][pointer index: psize bits]
-[save variable: 8 bits][pointer index: psize bits][variable type: 4 bits][variable value: ]
+[save variable: 8 bits][pointer index: psize bits]
+
+
+
+VARIABLE = [variable type: 4 bits][variable value: ]
     variable values (depending on variable type):
         Bool -      1 bit
         Char -      32 bits
@@ -13,13 +17,79 @@ Cowl bytecode will consist of instructions, with each instruction name taking up
         Int32 -     32 bits
         Int64 -     64 bits
         Int128 -    128 bits
+        UInt8 -     8 bits
+        UInt16 -    16 bits
+        UInt32 -    32 bits
+        UInt64 -    64 bits
+        UInt128 -   128 bits
 
-        Array -     tba
-        Dict -
+        Array -     [array size: 32 bits][array type: refer to this section][VARIABLE]... #NUMBER OF VARIABLES MATCHES WITH GIVEN ARRAY SIZE
+        Dict -      [dict size (# of pairs): 32 bits]
         List -
+        Set - 
         String -
 
         Func -
         Struct -
 
+        Dyn - 
+        Var - 
+
 [operation: 8 bits][operation type: 8 bits][first operand index: psize bits][second operand index: psize bits]
+
+
+
+
+FUTUREPROOFING 00-0f
+
+MEMORY 10-1f
+10 - load #load memory location into variable cache
+11 - save #save variable cache into memory location
+
+14 - load_addr #load memory index into variable cache
+
+DEFINE VARIABLES 20-3f
+20 - def_bool
+21 - def_char
+22 - def_f32
+23 - def_f64
+24 - def_i8
+25 - def_i16
+26 - def_i32
+27 - def_i64
+28 - def_i128
+29 - def_u8
+2a - def_u16
+2b - def_u32
+2c - def_u64
+2d - def_u128
+
+2e - def_array
+2f - def_dict
+30 - def_list
+31 - def_set
+32 - def_string
+
+33 - def_func
+34 - def_struct
+
+OPERATIONS 40-4f
+40 - add
+41 - sub
+42 - mult
+43 - div
+44 - mod
+45 - exp
+46 - neg
+
+47 - eq
+48 - gt
+49 - lt
+4a - gte
+4b - lte
+4c - ne
+4d - or
+4e - and
+4f - not
+
+
