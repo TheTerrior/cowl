@@ -1,0 +1,14 @@
+
+
+bool lessthan = (int32 in) {
+    int32 x 35;
+    if (x < in) {
+        return true;
+    }
+    return false;
+}
+
+void main() {
+    int32 y = 80;
+    print(lessthan(80));
+}
