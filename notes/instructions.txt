@@ -38,61 +38,61 @@ VARIABLE = [variable type: 4 bits][variable value: ]
 
 
 
-FUTUREPROOFING 00-0f (open 00-0f)
+
+
+FUTUREPROOFING 00-0f
 
 MEMORY 10-1f
-10 - load #load memory location into variable cache
-11 - save #save variable cache into memory location
+10 - load [index:64] #load memory location into variable cache
+11 - save [index:64] #save variable cache into memory location
 
-14 - load_addr #load memory index into variable cache
+14 - clone_pointer [index:64][index:64] #clone pointer from second operand to first operand
 
-DEFINE VARIABLES 20-3f (open 35-3f)
-20 - def_bool
-21 - def_char
-22 - def_f32
-23 - def_f64
-24 - def_i8
-25 - def_i16
-26 - def_i32
-27 - def_i64
-28 - def_i128
-29 - def_u8
-2a - def_u16
-2b - def_u32
-2c - def_u64
-2d - def_u128
+DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can then be saved with instruction 11)
+20 - def_bool   [data:1]
+21 - def_char   [data:32] #will use utf8
+22 - def_f32    [data:32]
+23 - def_f64    [data:64]
+24 - def_i8     [data:8]
+25 - def_i16    [data:16]
+26 - def_i32    [data:32]
+27 - def_i64    [data:64]
+28 - def_u8     [data:8]
+29 - def_u16    [data:16]
+2a - def_u32    [data:32]
+2b - def_u64    [data:64]
 
-2e - def_array
-2f - def_dict
-30 - def_list
-31 - def_set
-32 - def_string
+30 - def_array  [size:64]
+31 - def_dict   [0]
+32 - def_list   [0]
+33 - def_set    [0]
+34 - def_string [0]
 
-33 - def_func
-34 - def_struct
+38 - def_func   [parameters_size:64][block_size:64]{p0_type:4}{p1_type:4}...{...}
+39 - def_struct [parameters_size:64]{p0_size:4}{p1_size:4}...
 
-OPERATIONS 40-5f (open 52-57, 59-5f)
-40 - add
-41 - sub
-42 - mult
-43 - div
-44 - mod
-45 - exp
-46 - neg
+OPERATIONS 40-4f
+40 - add    [local:1]{index:64}[local:1]{index:64}
+41 - sub    [local:1]{index:64}[local:1]{index:64}
+42 - mult   [local:1]{index:64}[local:1]{index:64}
+43 - div    [local:1]{index:64}[local:1]{index:64}
+44 - mod    [local:1]{index:64}[local:1]{index:64}
+45 - exp    [local:1]{index:64}[local:1]{index:64}
+46 - neg    [local:1]{index:64}
 
-47 - eq
-48 - gt
-49 - lt
-4a - gte
-4b - lte
-4c - ne
-4d - or
-4e - and
-4f - not
+47 - eq     [local:1]{index:64}[local:1]{index:64}
+48 - gt     [local:1]{index:64}[local:1]{index:64}
+49 - lt     [local:1]{index:64}[local:1]{index:64}
+4a - gte    [local:1]{index:64}[local:1]{index:64}
+4b - lte    [local:1]{index:64}[local:1]{index:64}
+4c - ne     [local:1]{index:64}[local:1]{index:64}
+4d - or     [local:1]{index:64}[local:1]{index:64}
+4e - and    [local:1]{index:64}[local:1]{index:64}
+4f - not    [local:1]{index:64}
 
-50 - incr
-51 - decr
+50 - incr   [local:1]{index:64}
+51 - decr   [local:1]{index:64}
 
-58 - is
+58 - is     [local:1]{index:64}[local:1]{index:64}
 
 

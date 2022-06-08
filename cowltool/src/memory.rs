@@ -207,6 +207,9 @@ pub enum PointerType {
     //weak types
     Dyn,
     Var,
+
+    //function types
+    Void,
 }
 
 // i hate myself, why did i do this *facepalm*
