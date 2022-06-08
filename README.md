@@ -4,7 +4,7 @@ See General Information below for more info about this language.
 ## General Information
 This language is being written in my free time, just for fun and to gain programming experience.
 
-Cowl aims to be a general-purpose, statically-typed language that is easy to learn for new programmers. The language is compiled to bytecode, which is then interpreted. Syntax is reminiscent of C. Cowl files are stored as either .cl or .cowl, and Cowl bytecode is saved as a .ccl file.
+Cowl aims to be a general-purpose, statically-typed language that is easy to learn for new programmers. The language is compiled to bytecode, which is then interpreted. Syntax is reminiscent of C. Cowl files are stored as either .cowl or .cl, and Cowl bytecode is saved as a .cowlc or .clc file.
 
 The bytecode compiler and the interpreter will both be written in Rust, which should ensure high performance.
 
