@@ -1,44 +1,7 @@
-Cowl bytecode will consist of instructions, with each instruction name taking up 8 bits, and the length of an instruction will depend on the instruction itself.
-
-[psize: 1 bit] (denotes whether psize, or pointer size, is 32 or 64) #MAY BE DEPRECATED IN FAVOR OF AN ERROR, so theres not two types of bytecode
-[load variable: 8 bits][pointer index: 64 bits]
-[save variable: 8 bits][pointer index: 64 bits]
+Cowl bytecode will consist of instructions, with each opcode taking up 8 bits, and the length of an instruction will depend on the instruction itself.
 
 
-
-VARIABLE = [variable type: 4 bits][variable value: ]
-    variable values (depending on variable type):
-        Bool -      1 bit
-        Char -      32 bits
-        Float32 -   32 bits
-        Float64 -   64 bits
-        Int8 -      8 bits
-        Int16 -     16 bits
-        Int32 -     32 bits
-        Int64 -     64 bits
-        UInt8 -     8 bits
-        UInt16 -    16 bits
-        UInt32 -    32 bits
-        UInt64 -    64 bits
-
-        Array -     [array size: 32 bits][array type: refer to this section][VARIABLE]... #NUMBER OF VARIABLES MATCHES WITH GIVEN ARRAY SIZE
-        Dict -      [dict size (# of pairs): 32 bits]
-        List -
-        Set - 
-        String -
-
-        Func -
-        Struct -
-
-        Dyn - 
-        Var - 
-
-[operation: 8 bits][operation type: 8 bits][first operand index: psize bits][second operand index: psize bits]
-
-
-
-
-
+#### OPCODES ####
 
 FUTUREPROOFING 00-0f
 
