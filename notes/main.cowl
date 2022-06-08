@@ -11,4 +11,6 @@ bool lessthan = (int32 in) {
 void main() {
     int32 y = 80;
     print(lessthan(80));
+
+    x => y
 }

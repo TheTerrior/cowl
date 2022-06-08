@@ -54,7 +54,17 @@ impl<T> SmartList<T> {
         return Ok(());
     }
 
-    pub fn retrieve(&mut self, index: usize) -> Option<&mut T> {
+    pub fn retrieve(&mut self, index: usize) -> Option<&T> {
+        if index > self.data.len() {
+            return None;
+        }
+        match &self.data[index] {
+            None => return None,
+            Some(_) => return self.data[index].as_ref(),
+        }
+    }
+
+    pub fn retrieve_mut(&mut self, index: usize) -> Option<&mut T> {
         if index > self.data.len() {
             return None;
         }

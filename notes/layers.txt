@@ -1,0 +1,13 @@
+The Cowl language works slightly differently at every step of abstraction. Here's a guideline.
+
+Memory: 
+    At the lowest level, there are two storage units: the heap and the stack. All variables that the user interacts
+    with are allocated to the stack. All of them. Variables as the user sees them are simply pointers in reality.
+    These pointers are allocated on the heap given an index, and stored in a HashSet. The user does not know the
+    indices of these pointers, as these pointers are named at a lower level of abstraction that the user never sees.
+    Pointers themselves consist of a PointerType and an index to a Variable on the heap. In the future, Pointers
+    may be reworked to only contain an index, and allow all other checks to be performed during compiling.
+    Variables are stored in the heap, which is a SmartList type, which I've implemented myself. You can look at this
+    code yourself to see how it works, but it's a simple growable vector that uses lazy deletion. All variables
+    store a VarType and a list of the pointers that point to it. It keeps tracks of pointers so that it can delete
+    itself once there are no references to it.
