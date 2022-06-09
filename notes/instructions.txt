@@ -34,7 +34,7 @@ DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can th
 38 - def_func   [parameters_size:64][block_size:64]{p0_type:4}{p1_type:4}...{...}
 39 - def_struct [parameters_size:64]{p0_size:4}{p1_size:4}...
 
-OPERATIONS 40-4f
+OPERATIONS 40-5f
 40 - add    [local:1]{index:64}[local:1]{index:64}
 41 - sub    [local:1]{index:64}[local:1]{index:64}
 42 - mult   [local:1]{index:64}[local:1]{index:64}
@@ -42,20 +42,28 @@ OPERATIONS 40-4f
 44 - mod    [local:1]{index:64}[local:1]{index:64}
 45 - exp    [local:1]{index:64}[local:1]{index:64}
 46 - neg    [local:1]{index:64}
+47 - incr   [local:1]{index:64}
+48 - decr   [local:1]{index:64}
 
-47 - eq     [local:1]{index:64}[local:1]{index:64}
-48 - gt     [local:1]{index:64}[local:1]{index:64}
-49 - lt     [local:1]{index:64}[local:1]{index:64}
-4a - gte    [local:1]{index:64}[local:1]{index:64}
-4b - lte    [local:1]{index:64}[local:1]{index:64}
-4c - ne     [local:1]{index:64}[local:1]{index:64}
-4d - or     [local:1]{index:64}[local:1]{index:64}
-4e - and    [local:1]{index:64}[local:1]{index:64}
-4f - not    [local:1]{index:64}
+49 - eq     [local:1]{index:64}[local:1]{index:64}
+4a - gt     [local:1]{index:64}[local:1]{index:64}
+4b - lt     [local:1]{index:64}[local:1]{index:64}
+4c - gte    [local:1]{index:64}[local:1]{index:64}
+4d - lte    [local:1]{index:64}[local:1]{index:64}
+4e - ne     [local:1]{index:64}[local:1]{index:64}
+4f - or     [local:1]{index:64}[local:1]{index:64}
+50 - and    [local:1]{index:64}[local:1]{index:64}
+51 - not    [local:1]{index:64}
 
-50 - incr   [local:1]{index:64}
-51 - decr   [local:1]{index:64}
+52 - b_and  [local:1]{index:64}[local:1]{index:64}
+53 - b_or   [local:1]{index:64}[local:1]{index:64}
+54 - b_xor  [local:1]{index:64}[local:1]{index:64}
+55 - b_ls   [local:1]{index:64}[local:1]{index:64}
+56 - b_rs   [local:1]{index:64}[local:1]{index:64}
+57 - b_not  [local:1]{index:64}
 
 58 - is     [local:1]{index:64}[local:1]{index:64}
+
+
 
 
