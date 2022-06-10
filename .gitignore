@@ -1,7 +1,14 @@
+# Specific folders
 /cowltool/target
+/cowlctool/target
+
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]
 
 # C extensions
 *.so
+
+# Haskell intermediate files
+*.hi
+*.o
