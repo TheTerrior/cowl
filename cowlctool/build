@@ -1,2 +1,0 @@
-[ -d "target" ] || mkdir target
-ghc main.hs -hidir target -odir target -o cowlc
