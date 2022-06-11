@@ -14,17 +14,14 @@ A true compiler may come in the future if I'm willing to take on the task, but I
 ## Installation
 Prerequesites: cargo, ghc 
 
-If you'd like to check for any errors, you may run this command:
-```
-    make check
-```
-This will run unoptimized build scripts for both components, just to ensure everything builds as it should.
 
-To build the components for release, simply run this command:
+If you'd like to check for any errors, you may run this command. This will run unoptimized build scripts for both components, just to ensure everything builds as it should.
 ```
-    make build
+make check
 ```
-To install the components, run this command:
+
+To build and install the components, simply run these commands:
 ```
-    sudo make install
+make build
+sudo make install
 ```
