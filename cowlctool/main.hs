@@ -1,3 +1,8 @@
+import System.Environment ( getArgs )
 
-main::IO()
-main = putStrLn "waddup"
+main :: IO ()
+main = do
+    args <- getArgs
+    contents <- readFile "build"
+    print contents
+    print args

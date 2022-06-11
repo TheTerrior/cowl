@@ -12,4 +12,19 @@ Notes:
 A true compiler may come in the future if I'm willing to take on the task, but I have no knowledge on how to make a compiler and I'm currently the only one working on this language.
 
 ## Installation
-TBA
+Prerequesites: cargo, ghc 
+
+If you'd like to check for any errors, you may run this command:
+```
+    make check
+```
+This will run unoptimized build scripts for both components, just to ensure everything builds as it should.
+
+To build the components for release, simply run this command:
+```
+    make build
+```
+To install the components, run this command:
+```
+    sudo make install
+```

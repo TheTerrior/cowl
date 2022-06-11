@@ -1,6 +1,8 @@
-# Specific folders
+# Specific files and folders
 /cowltool/target
 /cowlctool/target
+/cowlctool/build
+/cowlctool/cowlc
 
 
 # Byte-compiled / optimized / DLL files
