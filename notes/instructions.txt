@@ -6,10 +6,14 @@ Cowl bytecode will consist of instructions, with each opcode taking up 8 bits, a
 FUTUREPROOFING 00-0f
 
 MEMORY 10-1f
-10 - load [index:64] #load memory location into variable cache
-11 - save [index:64] #save variable cache into memory location
+10 - load [index:64]    #load memory location into variable cache
+11 - save [index:64]    #save variable cache into memory location
+12 - access [local:1]{index:64}[index:64]   #access data in a complex type
+13 - modify [local:1]{index:64}[index:64]   #access data in a complex type
 
-14 - clone_pointer [index:64][index:64] #clone pointer from second operand to first operand
+14 - clone_pointer  [index:64][index:64]    #clone pointer from second operand to first operand
+15 - get_pointer    [index:64]  #returns an int64
+16 - dereference    [index:64]  #loads into variable cache
 
 DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can then be saved with instruction 11)
 20 - def_bool   [data:1]
@@ -26,13 +30,13 @@ DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can th
 2b - def_u64    [data:64]
 
 30 - def_array  [size:64]
-31 - def_dict   [0]
+31 - def_dict   [0] #creates new dict in local storage
 32 - def_list   [0]
 33 - def_set    [0]
 34 - def_string [0]
 
-38 - def_func   [parameters_size:64][block_size:64]{p0_type:4}{p1_type:4}...{...}
-39 - def_struct [parameters_size:64]{p0_size:4}{p1_size:4}...
+38 - def_func   [return_type:5]{p0_type:5}{p1_type:5}...[end_type:5]{...block...}[end_block:8]
+39 - def_struct {p0_type:5}{p1_type:5}...[end_type:5]
 
 OPERATIONS 40-5f
 40 - add    [local:1]{index:64}[local:1]{index:64}
@@ -64,6 +68,38 @@ OPERATIONS 40-5f
 
 58 - is     [local:1]{index:64}[local:1]{index:64}
 
+SPECIAL TYPES 60-6f
+60 - call   [local:1]{index:64}[local:1]{index:64} #function must receive a list
+6f - end_block  [0]
 
 
 
+
+
+#### VARIABLE TYPES ####
+
+00 - def_bool  
+01 - def_char  
+02 - def_f32   
+03 - def_f64   
+04 - def_i8    
+05 - def_i16   
+06 - def_i32   
+07 - def_i64   
+08 - def_u8    
+09 - def_u16   
+0a - def_u32   
+0b - def_u64   
+
+0c - def_array
+0d - def_dict  
+0e - def_list  
+0f - def_set   
+10 - def_string
+
+11 - def_func  
+12 - def_struct
+
+19 - void   #used for function return type
+
+1f - end    #used for ending a chain of types
