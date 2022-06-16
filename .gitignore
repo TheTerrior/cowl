@@ -2,6 +2,8 @@
 /cowltool/target
 /cowlctool/target
 /cowlctool/cowlc
+/cowlctool/META-INF
+/cowlctool/main.jar
 
 
 # Byte-compiled / optimized / DLL files

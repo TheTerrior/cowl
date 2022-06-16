@@ -1,1 +1,2 @@
-ghc main.hs -hidir target -odir target -o cowlc
+#ghc main.hs -hidir target -odir target -o cowlc
+kotlinc main.kt -include-runtime -d main.jar
