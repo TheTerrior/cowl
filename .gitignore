@@ -1,9 +1,7 @@
 # Specific files and folders
 /cowltool/target
 /cowlctool/target
-/cowlctool/cowlc
-/cowlctool/META-INF
-/cowlctool/main.jar
+/cowlctool/old
 /cowlctool/main
 
 
