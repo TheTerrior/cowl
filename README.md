@@ -1,21 +1,19 @@
 # The Cowl Programming Language
-See General Information below for more info about this language.
 
 ## General Information
-This language is being written in my free time, just for fun and to gain programming experience.
+Cowl aims to be a general-purpose, strongly-typed language with a C-like syntax that is easy to learn for new programmers. Cowl is compiled to bytecode and interpreted using the cowlc and cowl tools provided in this repository. Associated filetypes are .cowl and .cl for Cowl code, and .cowlc and .clc for Cowl bytecode.
 
-Cowl aims to be a general-purpose, statically-typed language that is easy to learn for new programmers. The language is compiled to bytecode, which is then interpreted. Syntax is reminiscent of C. Cowl files are stored as either .cowl or .cl, and Cowl bytecode is saved as a .cowlc or .clc file.
+Variable types can be dynamic, declared, or inferred. Internally, variables are implemented as pointers to variable objects in memory, and as such no variable truly owns its value. This form of data representation differs from most programming languages today, however I believe this improves consistency in how simple types (like integers) and complex types (like vectors/lists) are handled. All variables can be passed by value or by reference, no matter the type.
 
-The interpreter and compiler will be written in Rust and Go respectively.
+The interpreter and bytecode compiler will be written in Rust and Go respectively. These two languages will ensure high performance and cross-platform compatibility. Cowl will be available for Windows, MacOS, and Linux.
 
-Notes:
-A true compiler may come in the future if I'm willing to take on the task, but I have no knowledge on how to make a compiler and I'm currently the only one working on this language.
+Notes:<br>
+A machine code compiler may come in the future if I'm willing to take on the task, but currenly I'm the solo developer of this project and I have no knowledge on building compilers. A possible way to generate machine code would be via LLVM, but that's for future experimentation.
 
 ## Installation
-Prerequesites: cargo
+Prerequesites: cargo, go
 
-
-If you'd like to check for any errors, you may run this command. This will run unoptimized build scripts for both components, just to ensure everything builds as it should.
+If you'd like to check for any errors, you may run this command.
 ```
 make check
 ```
