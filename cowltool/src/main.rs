@@ -7,20 +7,22 @@ use smartlist::SmartList;
 use std::fs;
 use std::env;
 
-// entry point for the interpreter, should receive some arguments
-fn main() {
+fn process_arguments() -> Option<String> {
     let args: Vec<String> = env::args().collect();
-    //let contents = fs::read();
-    let mut target: Option<String> = None;
-    let mut help: bool = false;
-    let mut mode: i32 = 0; //represents what we're looking for in our arguments, like a directory or something
-    let mut too_many_args: bool = false;
+
+    let mut target: Option<String> = None; //target file we'll be interpreting
+    
+    let mode: i32 = 0;
+    let mut help: bool = false; //has the user requested help?
+    let mut version: bool = false; //has the user requested the version info?
+    let mut too_many_args: bool = false; //have we received too many arguments?
+
     /*
-        mode:
-        0 -> default, flags or bytecode directory
-        1 -> 
+        mode: represents what we're currently searching for in our arguments, like a directory or the second half of a flag
+        0 -> default; flags or bytecode directory
     */
 
+    //find any important flags and collect info
     for i in 0..args.len() { //iterate through all args
         if i == 0 { //skip the first arg for now, may change this behavior later
             continue;
@@ -28,6 +30,10 @@ fn main() {
 
         if args[i].as_str() == "-h" || args[i].as_str() == "--help" { //no matter the mode or input, if user requests help then it overrides
             help = true;
+            break;
+        }
+        if args[i].as_str() == "-V" || args[i].as_str() == "--version" { //no matter the mode or input, if user requests help then it overrides
+            version = true;
             break;
         }
 
@@ -46,25 +52,38 @@ fn main() {
         }
     }
     
+    //handle all the individual cases
     if help {
         println!("{}",
             "\
-            Cowl's bytecode interpeter\n\
+            Cowl's interpeter\n\
             \n\
             USAGE:\n\
             \tcowl [OPTIONS] [TARGET FILE]\n\
             \n\
             OPTIONS:\n\
-            \t-h, --help\tPrint help information (this message), and exit\n
+            \t-h, --help\tPrint help information (this message), and exit\n\
             \t-V, --version\tPrint version info and exit\n\
             "
         );
-        return;
+        return None;
+    }
+    if version {
+        println!("cowl 1.0.0")
     }
     if too_many_args {
-        println!("Invalid arguments");
-        return;
+        println!("ERROR: Invalid arguments");
+        return None;
     }
+
+    return target;
+}
+
+// entry point for the interpreter, should receive some arguments
+fn main() {
+    process_arguments();
+
+    test_bytecode_read();
 
     //check the target to see if it's valid
 
@@ -72,8 +91,11 @@ fn main() {
 
 }
 
-/* 
+fn test_bytecode_read() {
 
+}
+
+/* 
 fn test_smartlist() {
     let mut sl: SmartList<i32> = SmartList::new();
     println!("{:?}", sl.add(4));

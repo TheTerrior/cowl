@@ -3,7 +3,7 @@
 /cowlctool/target
 /cowlctool/old
 /cowlctool/main
-
+/cowltool/src/test.cowlc
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]

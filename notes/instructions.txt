@@ -8,8 +8,8 @@ FUTUREPROOFING 00-0f
 MEMORY 10-1f
 10 - load [index:64]    #load memory location into variable cache
 11 - save [index:64]    #save variable cache into memory location
-12 - access [local:1]{index:64}[index:64]   #access data in a complex type
-13 - modify [local:1]{index:64}[index:64]   #access data in a complex type
+12 - access [loc:2]{index:64}[index:64]   #access data in a complex type
+13 - modify [loc:2]{index:64}[index:64]   #access data in a complex type
 
 14 - clone_pointer  [index:64][index:64]    #clone pointer from second operand to first operand
 15 - get_pointer    [index:64]  #returns an int64
@@ -17,7 +17,7 @@ MEMORY 10-1f
 
 DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can then be saved with instruction 11)
 20 - def_bool   [data:1]
-21 - def_char   [data:32] #will use utf8
+21 - def_char   [data:32]   #will use utf8
 22 - def_f32    [data:32]
 23 - def_f64    [data:64]
 24 - def_i8     [data:8]
@@ -30,7 +30,7 @@ DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can th
 2b - def_u64    [data:64]
 
 30 - def_array  [size:64]
-31 - def_dict   [0] #creates new dict in local storage
+31 - def_dict   [0]     #creates new dict in local storage
 32 - def_list   [0]
 33 - def_set    [0]
 34 - def_string [0]
@@ -39,38 +39,38 @@ DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can th
 39 - def_struct {p0_type:5}{p1_type:5}...[end_type:5]
 
 OPERATIONS 40-5f
-40 - add    [local:1]{index:64}[local:1]{index:64}
-41 - sub    [local:1]{index:64}[local:1]{index:64}
-42 - mult   [local:1]{index:64}[local:1]{index:64}
-43 - div    [local:1]{index:64}[local:1]{index:64}
-44 - mod    [local:1]{index:64}[local:1]{index:64}
-45 - exp    [local:1]{index:64}[local:1]{index:64}
-46 - neg    [local:1]{index:64}
-47 - incr   [local:1]{index:64}
-48 - decr   [local:1]{index:64}
+40 - add    [loc:2]{index:64}[loc:2]{index:64}
+41 - sub    [loc:2]{index:64}[loc:2]{index:64}
+42 - mult   [loc:2]{index:64}[loc:2]{index:64}
+43 - div    [loc:2]{index:64}[loc:2]{index:64}
+44 - mod    [loc:2]{index:64}[loc:2]{index:64}
+45 - exp    [loc:2]{index:64}[loc:2]{index:64}
+46 - neg    [loc:2]{index:64}
+47 - incr   [loc:2]{index:64}
+48 - decr   [loc:2]{index:64}
 
-49 - eq     [local:1]{index:64}[local:1]{index:64}
-4a - gt     [local:1]{index:64}[local:1]{index:64}
-4b - lt     [local:1]{index:64}[local:1]{index:64}
-4c - gte    [local:1]{index:64}[local:1]{index:64}
-4d - lte    [local:1]{index:64}[local:1]{index:64}
-4e - ne     [local:1]{index:64}[local:1]{index:64}
-4f - or     [local:1]{index:64}[local:1]{index:64}
-50 - and    [local:1]{index:64}[local:1]{index:64}
-51 - not    [local:1]{index:64}
+49 - eq     [loc:2]{index:64}[loc:2]{index:64}
+4a - gt     [loc:2]{index:64}[loc:2]{index:64}
+4b - lt     [loc:2]{index:64}[loc:2]{index:64}
+4c - gte    [loc:2]{index:64}[loc:2]{index:64}
+4d - lte    [loc:2]{index:64}[loc:2]{index:64}
+4e - ne     [loc:2]{index:64}[loc:2]{index:64}
+4f - or     [loc:2]{index:64}[loc:2]{index:64}
+50 - and    [loc:2]{index:64}[loc:2]{index:64}
+51 - not    [loc:2]{index:64}
 
-52 - b_and  [local:1]{index:64}[local:1]{index:64}
-53 - b_or   [local:1]{index:64}[local:1]{index:64}
-54 - b_xor  [local:1]{index:64}[local:1]{index:64}
-55 - b_ls   [local:1]{index:64}[local:1]{index:64}
-56 - b_rs   [local:1]{index:64}[local:1]{index:64}
-57 - b_not  [local:1]{index:64}
+52 - b_and  [loc:2]{index:64}[loc:2]{index:64}
+53 - b_or   [loc:2]{index:64}[loc:2]{index:64}
+54 - b_xor  [loc:2]{index:64}[loc:2]{index:64}
+55 - b_ls   [loc:2]{index:64}[loc:2]{index:64}
+56 - b_rs   [loc:2]{index:64}[loc:2]{index:64}
+57 - b_not  [loc:2]{index:64}
 
-58 - is     [local:1]{index:64}[local:1]{index:64}
+58 - is     [loc:2]{index:64}[loc:2]{index:64}
 
 SPECIAL TYPES 60-6f
-60 - call   [local:1]{index:64}[local:1]{index:64} #function must receive a list
-6f - end_block  [0]
+60 - call_func  [loc:2]{index:64}[loc:2]{index:64}  #function must receive a list
+6f - end_block  [0]     #used to end a function and impl
 
 
 
@@ -103,3 +103,13 @@ SPECIAL TYPES 60-6f
 19 - void   #used for function return type
 
 1f - end    #used for ending a chain of types
+
+
+
+
+
+#### VALUE LOCATIONS ####
+
+0 - local cache     #stored as vector
+1 - parameter array
+2 - heap
