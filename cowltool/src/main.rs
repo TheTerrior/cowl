@@ -65,6 +65,22 @@ fn process_arguments() -> Option<String> {
             \t-h, --help\tPrint help information (this message), and exit\n\
             \t-V, --version\tPrint version info and exit\n\
             "
+            // Im going to break your code
+            // damn, i already backed it up to github sadge
+            // fuck
+            //alright so this works, im glad, i fixed stuff on my linux
+            // macos >> linux
+            /*operator >> {
+                redefine <<
+            }*/
+            // oh you think you're clever
+            //yes actually
+            // frick this, i'm leaving
+            // o/
+            // lmao
+
+            //I see people have talked here so I'm leaving my mark too
+            //- Mr Freeze
         );
         return None;
     }

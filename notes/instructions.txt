@@ -15,6 +15,9 @@ MEMORY 10-1f
 15 - get_pointer    [index:64]  #returns an int64
 16 - dereference    [index:64]  #loads into variable cache
 
+1a - add_scope  #creates a new scope, must eventually be followed by a rem_scope 
+1b - rem_scope  #pops the latest scope
+
 DEFINE VARIABLES 20-3f (initiate a Variable into the local storage, which can then be saved with instruction 11)
 20 - def_bool   [data:1]
 21 - def_char   [data:32]   #will use utf8
@@ -108,8 +111,8 @@ SPECIAL TYPES 60-6f
 
 
 
-#### VALUE LOCATIONS ####
+#### MEMORY LOCATIONS ####
 
-0 - local cache     #stored as vector
-1 - parameter array
-2 - heap
+0 - local cache     #stored as vector, exclusive to the interpreter
+1 - parameter array #supplied to a function
+2 - heap            #mass storage
