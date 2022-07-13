@@ -13,9 +13,10 @@ fn process_arguments() -> Option<String> {
     let mut target: Option<String> = None; //target file we'll be interpreting
     
     let mode: i32 = 0;
+    let mut too_many_args: bool = false; //have we received too many arguments?
     let mut help: bool = false; //has the user requested help?
     let mut version: bool = false; //has the user requested the version info?
-    let mut too_many_args: bool = false; //have we received too many arguments?
+    let mut read: bool = false; //has the user requested to read the instructions?
 
     /*
         mode: represents what we're currently searching for in our arguments, like a directory or the second half of a flag
@@ -36,6 +37,10 @@ fn process_arguments() -> Option<String> {
             version = true;
             break;
         }
+        if args[i].as_str() == "-r" || args[i].as_str() == "--read" { //only takes action if a file is provided
+            read = true;
+            continue;
+        }
 
         match mode { //for futureproofing
             _ => {
@@ -45,7 +50,7 @@ fn process_arguments() -> Option<String> {
                     },
                     _ => {
                         too_many_args = true;
-                        break;
+                        continue;
                     },
                 }
             }
@@ -62,8 +67,9 @@ fn process_arguments() -> Option<String> {
             \tcowl [OPTIONS] [TARGET FILE]\n\
             \n\
             OPTIONS:\n\
-            \t-h, --help\tPrint help information (this message), and exit\n\
+            \t-h, --help\tPrint help information (this message) and exit\n\
             \t-V, --version\tPrint version info and exit\n\
+            \t-r, --read\tPrint the encoded instructions in the given file as text and exit\n\
             "
             // Im going to break your code
             // damn, i already backed it up to github sadge
@@ -86,6 +92,17 @@ fn process_arguments() -> Option<String> {
     }
     if version {
         println!("cowl 1.0.0")
+    }
+    if read {
+        match target {
+            None => {
+                println!("ERROR: Requested to read instructions but no file was given")
+            },
+            _ => {
+                println!("TODO: Print out the instructions");
+                return None;
+            },
+        }
     }
     if too_many_args {
         println!("ERROR: Invalid arguments");
