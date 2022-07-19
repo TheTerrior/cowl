@@ -116,7 +116,16 @@ fn process_arguments() -> Option<String> {
 fn main() {
     process_arguments();
 
-    test_bytecode_read();
+    let input: u8 = test_bytecode_read();
+
+    println!("{}", read_nth_bit(input, 0));
+    println!("{}", read_nth_bit(input, 1));
+    println!("{}", read_nth_bit(input, 2));
+    println!("{}", read_nth_bit(input, 3));
+    println!("{}", read_nth_bit(input, 4));
+    println!("{}", read_nth_bit(input, 5));
+    println!("{}", read_nth_bit(input, 6));
+    println!("{}", read_nth_bit(input, 7));
 
     //check the target to see if it's valid
 
@@ -124,8 +133,18 @@ fn main() {
 
 }
 
-fn test_bytecode_read() {
+fn test_bytecode_read() -> u8 {
+    //let contents = fs::read_to_string("test.txt").expect("Something went wrong reading the file");
+    let contents = fs::read("test.txt").expect("Something went wrong reading the file");
+    return contents[0];
+}
 
+fn read_nth_bit(input: u8, n: u8) -> bool {
+    if n < 32 {
+        input & (1 << n) != 0
+    } else {
+        false
+    }
 }
 
 /* 
