@@ -3,13 +3,13 @@ mod memory;
 mod alu;
 mod processor;
 
-use smartlist::SmartList;
+//use smartlist::SmartList;
 use std::fs;
 use std::env;
 
-//given a u8, return all 8 bits as an array of bools
+// given a u8, return all 8 bits as an array of bools
 fn read_bits(input: u8) -> Vec<bool> {
-    let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]);
+    let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]); //kind of verbose, but with_capacity wasn't working
     for i in 0..8 {
         bits[i] = input & (1 << i) != 0;
     }
@@ -19,7 +19,6 @@ fn read_bits(input: u8) -> Vec<bool> {
 // read the given file with the given flags
 fn read_file(target: String, read: bool, _: bool) {
     let contents: Vec<u8> = fs::read(target).expect("Something went wrong reading the file");
-
     let mut bits: Vec<u8> = Vec::with_capacity(contents.len() * 8);
 
     for i in 0..contents.len() {
@@ -53,7 +52,7 @@ fn process_arguments() {
     let mut help: bool = false; //has the user requested help?
     let mut version: bool = false; //has the user requested the version info?
     let mut read: bool = false; //has the user requested to read the instructions?
-    let mut memconv: bool = false; //will conserve memory at the cost of performance
+    let mut memconv: bool = false; //will conserve memory at the cost of performance, currently on by default until (if) implemented
 
     /*
         mode: represents what we're currently searching for in our arguments, like a directory or the second half of a flag
@@ -156,29 +155,9 @@ fn process_arguments() {
     return;
 }
 
-// entry point for the interpreter, should receive some arguments
+// entry point for the interpreter, immediately calls process_arguments
 fn main() {
     process_arguments();
-
-
-    /* 
-    let input: u8 = test_bytecode_read();
-
-    println!("{}", read_nth_bit(input, 0));
-    println!("{}", read_nth_bit(input, 1));
-    println!("{}", read_nth_bit(input, 2));
-    println!("{}", read_nth_bit(input, 3));
-    println!("{}", read_nth_bit(input, 4));
-    println!("{}", read_nth_bit(input, 5));
-    println!("{}", read_nth_bit(input, 6));
-    println!("{}", read_nth_bit(input, 7));
-
-    */
-
-    //check the target to see if it's valid
-
-    //if nothing caused the interpreter to stop by now, then we're free to start interpreting the input file
-
 }
 
 /* 
