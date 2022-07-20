@@ -4,6 +4,7 @@
 /cowlctool/old
 /cowlctool/main
 /cowltool/src/test.cowlc
+/cowltool/src/test.txt
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]

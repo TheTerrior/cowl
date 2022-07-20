@@ -7,7 +7,43 @@ use smartlist::SmartList;
 use std::fs;
 use std::env;
 
-fn process_arguments() -> Option<String> {
+//given a u8, return all 8 bits as an array of bools
+fn read_bits(input: u8) -> Vec<bool> {
+    let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]);
+    for i in 0..8 {
+        bits[i] = input & (1 << i) != 0;
+    }
+    return bits;
+}
+
+// read the given file with the given flags
+fn read_file(target: String, read: bool, _: bool) {
+    let contents: Vec<u8> = fs::read(target).expect("Something went wrong reading the file");
+
+    let mut bits: Vec<u8> = Vec::with_capacity(contents.len() * 8);
+
+    for i in 0..contents.len() {
+        let bits_bool: Vec<bool> = read_bits(contents[i]);
+        for j in 0..bits_bool.len() {
+            bits.push({
+                if bits_bool[j] {
+                    1
+                } else {
+                    0
+                }
+            });
+        }
+    }
+
+    //if user requested to read the bits, then output the bits and end
+    if read {
+        println!("{:?}", bits);
+        return;
+    }
+}
+
+// called by main, collects the arguments and processes them
+fn process_arguments() {
     let args: Vec<String> = env::args().collect();
 
     let mut target: Option<String> = None; //target file we'll be interpreting
@@ -17,6 +53,7 @@ fn process_arguments() -> Option<String> {
     let mut help: bool = false; //has the user requested help?
     let mut version: bool = false; //has the user requested the version info?
     let mut read: bool = false; //has the user requested to read the instructions?
+    let mut memconv: bool = false; //will conserve memory at the cost of performance
 
     /*
         mode: represents what we're currently searching for in our arguments, like a directory or the second half of a flag
@@ -39,6 +76,14 @@ fn process_arguments() -> Option<String> {
         }
         if args[i].as_str() == "-r" || args[i].as_str() == "--read" { //only takes action if a file is provided
             read = true;
+            continue;
+        }
+        if args[i].as_str() == "-r" || args[i].as_str() == "--read" { //only takes action if a file is provided
+            read = true;
+            continue;
+        }
+        if args[i].as_str() == "-m" || args[i].as_str() == "--low-memory" { //only takes action if a file is provided
+            memconv = true;
             continue;
         }
 
@@ -88,34 +133,35 @@ fn process_arguments() -> Option<String> {
             //I see people have talked here so I'm leaving my mark too
             //- Mr Freeze
         );
-        return None;
+        return;
     }
     if version {
-        println!("cowl 1.0.0")
-    }
-    if read {
-        match target {
-            None => {
-                println!("ERROR: Requested to read instructions but no file was given")
-            },
-            _ => {
-                println!("TODO: Print out the instructions");
-                return None;
-            },
-        }
+        println!("cowl 1.0.0");
+        return;
     }
     if too_many_args {
         println!("ERROR: Invalid arguments");
-        return None;
+        return;
     }
 
-    return target;
+    //haven't run into any weird cases, run the target
+    match target {
+        None => {
+            println!("ERROR: Requested to read instructions but no file was given");
+        },
+        _ => {
+            read_file(target.unwrap(), read, memconv);
+        }
+    }
+    return;
 }
 
 // entry point for the interpreter, should receive some arguments
 fn main() {
     process_arguments();
 
+
+    /* 
     let input: u8 = test_bytecode_read();
 
     println!("{}", read_nth_bit(input, 0));
@@ -127,24 +173,12 @@ fn main() {
     println!("{}", read_nth_bit(input, 6));
     println!("{}", read_nth_bit(input, 7));
 
+    */
+
     //check the target to see if it's valid
 
     //if nothing caused the interpreter to stop by now, then we're free to start interpreting the input file
 
-}
-
-fn test_bytecode_read() -> u8 {
-    //let contents = fs::read_to_string("test.txt").expect("Something went wrong reading the file");
-    let contents = fs::read("test.txt").expect("Something went wrong reading the file");
-    return contents[0];
-}
-
-fn read_nth_bit(input: u8, n: u8) -> bool {
-    if n < 32 {
-        input & (1 << n) != 0
-    } else {
-        false
-    }
 }
 
 /* 
