@@ -12,7 +12,7 @@ use processor::execute;
 fn read_bits(input: u8) -> Vec<bool> {
     let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]); //kind of verbose, but with_capacity wasn't working
     for i in 0..8 {
-        bits[i] = input & (1 << i) != 0;
+        bits[7 - i] = input & (1 << i) != 0;
     }
     return bits;
 }
@@ -23,7 +23,7 @@ fn read_file(target: String, read: bool, _: bool) {
     let mut bits: Vec<bool> = Vec::with_capacity(contents.len() * 8);
 
     for i in 0..contents.len() {
-        let bits: Vec<bool> = read_bits(contents[i]);
+        bits.append(&mut read_bits(contents[i]));
     }
 
     //if user requested to read the bits, then output the bits and end
