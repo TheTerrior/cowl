@@ -6,6 +6,7 @@ mod processor;
 //use smartlist::SmartList;
 use std::fs;
 use std::env;
+use processor::execute;
 
 // given a u8, return all 8 bits as an array of bools
 fn read_bits(input: u8) -> Vec<bool> {
@@ -19,25 +20,18 @@ fn read_bits(input: u8) -> Vec<bool> {
 // read the given file with the given flags
 fn read_file(target: String, read: bool, _: bool) {
     let contents: Vec<u8> = fs::read(target).expect("Something went wrong reading the file");
-    let mut bits: Vec<u8> = Vec::with_capacity(contents.len() * 8);
+    let mut bits: Vec<bool> = Vec::with_capacity(contents.len() * 8);
 
     for i in 0..contents.len() {
-        let bits_bool: Vec<bool> = read_bits(contents[i]);
-        for j in 0..bits_bool.len() {
-            bits.push({
-                if bits_bool[j] {
-                    1
-                } else {
-                    0
-                }
-            });
-        }
+        let bits: Vec<bool> = read_bits(contents[i]);
     }
 
     //if user requested to read the bits, then output the bits and end
     if read {
         println!("{:?}", bits);
         return;
+    } else {    //if user did not request a read, feed the bits to processor::execute
+        execute(bits);
     }
 }
 

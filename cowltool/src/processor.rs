@@ -1,18 +1,6 @@
 use crate::memory::{VarType, Variable};
 
-struct Instruction {
-    opcode: i32, //really it's an i8
-}
-
-// receives the raw string, where each char is made of 
-fn deconstruct(raw: String) {
-
-}
-
-fn interpret(raw: String) {
-
-}
-
-fn execute() {
+// will receive the list of bits (bools), and will pull from it as needed to construct instructions
+pub fn execute(bits: Vec<bool>) {
     
 }

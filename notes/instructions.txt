@@ -75,6 +75,15 @@ SPECIAL TYPES 60-6f
 60 - call_func  [loc:2]{index:64}[loc:2]{index:64}  #function must receive a list
 6f - end_block  [0]     #used to end a function and impl
 
+LOOPS 70-7f
+70 - loop   [name:64]                   #loops from here until end_loop until broken, should be followed with an add_scope
+71 - while  [name:64][func_index:64]    #runs function every time, stops when broken or function returns false
+72 - for    [name:64][start:64][end:64] #runs through all integer values from start (inclusive) to end (exclusive)
+
+77 - end_loop   #ends the current loop, should be preceded by a rem_scope
+
+78 - break                  #break the current loop
+79 - break_name [name:64]   #given the name of the loop, break it
 
 
 
