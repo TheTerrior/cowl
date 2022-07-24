@@ -1,5 +1,3 @@
-use std::collections::VecDeque;
-
 use crate::memory::{VarType, Variable};
 
 //fn get_bits(bits: Vec<bool>) {
