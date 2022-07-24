@@ -3,26 +3,27 @@ mod memory;
 mod alu;
 mod processor;
 
-//use smartlist::SmartList;
 use std::fs;
 use std::env;
 use processor::execute;
 
-// given a u8, return all 8 bits as an array of bools
+// given a u8, return all 8 bits as a vector of bools
 fn read_bits(input: u8) -> Vec<bool> {
-    let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]); //kind of verbose, but with_capacity wasn't working
+    //let mut bits: Vec<bool> = Vec::from([false, false, false, false, false, false, false, false]); //kind of verbose, but with_capacity wasn't working
+    let mut bits: Vec<bool> = vec![false; 8]; //initialize a vector of length 8 with all falses
     for i in 0..8 {
-        bits[7 - i] = input & (1 << i) != 0;
+        bits[i] = input & (1 << i) != 0;
     }
     return bits;
 }
 
 // read the given file with the given flags
 fn read_file(target: String, read: bool, _: bool) {
+    println!("{:?}", target);
     let contents: Vec<u8> = fs::read(target).expect("Something went wrong reading the file");
     let mut bits: Vec<bool> = Vec::with_capacity(contents.len() * 8);
 
-    for i in 0..contents.len() {
+    for i in (0..contents.len()).rev() {
         bits.append(&mut read_bits(contents[i]));
     }
 

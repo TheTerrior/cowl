@@ -1,6 +1,13 @@
+use std::collections::VecDeque;
+
 use crate::memory::{VarType, Variable};
 
-// will receive the list of bits (bools), and will pull from it as needed to construct instructions
+//fn get_bits(bits: Vec<bool>) {
+//    bits.
+//}
+
+// will receive the bit stream, and will pop from it as needed to construct instructions
+// note: bit stream is reversed (front is at back) so that we can pop efficiently
 pub fn execute(bits: Vec<bool>) {
     
 }

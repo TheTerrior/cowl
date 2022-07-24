@@ -4,6 +4,7 @@ Cowl bytecode will consist of instructions, with each opcode taking up 8 bits, a
 #### OPCODES ####
 
 FUTUREPROOFING 00-0f
+00 - end    #signals the end of the file, not required
 
 MEMORY 10-1f
 10 - load [index:64]    #load memory location into variable cache
