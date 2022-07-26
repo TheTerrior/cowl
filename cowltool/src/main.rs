@@ -5,9 +5,8 @@ mod processor;
 
 use std::fs;
 use std::env;
-use processor::execute;
 
-// given a u8, return all 8 bits as a vector of bools
+// Given a u8, returns all its 8 bits as a vector of bools (rightmost bit gets saved at index 0).
 fn read_bits(input: u8) -> Vec<bool> {
     let mut bits: Vec<bool> = vec![false; 8]; //initialize a vector of length 8 with all falses
     for i in 0..8 {
@@ -16,7 +15,7 @@ fn read_bits(input: u8) -> Vec<bool> {
     return bits;
 }
 
-// read the given file with the given flags
+// Reads the target file, either printing the bits or passing them to the processor.
 fn read_file(target: String, read: bool, _: bool) {
     let contents: Vec<u8> = fs::read(target).expect("Something went wrong reading the file");
     let mut bits: Vec<bool> = Vec::with_capacity(contents.len() * 8);
@@ -30,11 +29,11 @@ fn read_file(target: String, read: bool, _: bool) {
         println!("{:?}", bits);
         return;
     } else {    //if user did not request a read, feed the bits to processor::execute
-        execute(bits);
+        processor::execute(bits);
     }
 }
 
-// called by main, collects the arguments and processes them
+// Called by main, collects the arguments and processes them.
 fn process_arguments() {
     let args: Vec<String> = env::args().collect();
 
@@ -148,7 +147,7 @@ fn process_arguments() {
     return;
 }
 
-// entry point for the interpreter, immediately calls process_arguments
+// Entry point for the interpreter, immediately calls process_arguments.
 fn main() {
     process_arguments();
 }
