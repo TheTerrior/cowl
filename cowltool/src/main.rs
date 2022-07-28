@@ -29,7 +29,7 @@ fn read_file(target: String, read: bool, _: bool) {
         println!("{:?}", bits);
         return;
     } else {    //if user did not request a read, feed the bits to processor::execute
-        processor::execute(bits);
+        processor::process_stream(bits);
     }
 }
 
