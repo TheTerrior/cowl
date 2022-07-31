@@ -1,5 +1,3 @@
-use std::net::TcpStream;
-
 use crate::memory::{VarType, Variable};
 
 // The form an instruction will be saved as in the processor, variable type will influence the body type
@@ -15,12 +13,14 @@ enum Instruction_Body {
     Block(Vec<Instruction>),
 }
 
-// Will receive the bit stream, and will pop from it as needed to construct instructions (acts as this file's main function)
+// TODO
+// Will receive the bit stream pop from it as needed to construct instructions; this function acts as this file's main function
 // Note: bit stream is reversed (first bit is at vector end) so that we can pop efficiently
 pub fn process_stream(bits: Vec<bool>) {
     
 }
 
+// TODO
 // Take in a list of Instructions and execute them
 fn execute(program: Instruction_Body) {
 
