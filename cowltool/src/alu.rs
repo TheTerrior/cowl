@@ -50,12 +50,39 @@ fn greater_than() {
 
 }
 
+// TODO
 fn less_than() {
 
 }
 
+// TODO
 fn greater_than_equal() {
     
+}
+
+// TODO
+fn less_than_equal() {
+
+}
+
+// TODO
+fn not_equal_to() {
+
+}
+
+// TODO
+fn or() {
+
+}
+
+// TODO
+fn and() {
+
+}
+
+// TODO
+fn not() {
+
 }
 
 
@@ -109,6 +136,27 @@ fn length() {
 
 }
 
+// TODO
+fn copy() {
+
+}
+
+// TODO
+fn is() {
+    
+}
+
+
+///
+/// ENVIRONMENT
+/// 
+
+
+///
+/// CONCURRENCY
+/// 
+
+
 
 ///
 /// MISCELLANEOUS
@@ -118,3 +166,4 @@ fn length() {
 fn rand() {
 
 }
+

@@ -63,7 +63,7 @@ OPERATIONS 40-5f
 50 - and    [loc:2]{index:64}[loc:2]{index:64}
 51 - not    [loc:2]{index:64}
 
-52 - b_and  [loc:2]{index:64}[loc:2]{index:64}
+52 - b_and  [loc:2]{index:64}[loc:2]{index:64}  #bitwise and
 53 - b_or   [loc:2]{index:64}[loc:2]{index:64}
 54 - b_xor  [loc:2]{index:64}[loc:2]{index:64}
 55 - b_ls   [loc:2]{index:64}[loc:2]{index:64}
@@ -114,6 +114,7 @@ LOOPS 70-7f
 12 - def_struct
 
 19 - void   #used for function return type
+1a - main   #used solely for the main function, returns a null 
 
 1f - end    #used for ending a chain of types
 

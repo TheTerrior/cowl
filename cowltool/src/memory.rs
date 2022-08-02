@@ -98,6 +98,8 @@ impl Memory {
     
 }
 
+
+// VARIABLE
 // stored in virtual memory, used to hold information about a variable's information
 #[derive(Clone)]
 pub struct Variable {
@@ -122,11 +124,13 @@ impl Variable {
     }
 }
 
+
+// POINTER
 // this structure is the front-end for a variable, generally immutable, replaced rather than modified
 #[derive(Clone)]
 pub struct Pointer {
     var_type: PointerType,
-    var_index: Option<usize>, //simply points to a location in memory, which can either be a complex or simple variable
+    var_index: Option<usize>, //simply points to a Variable in memory, is None if the pointer is null
 }
 
 impl Pointer {
@@ -179,6 +183,7 @@ pub enum VarType {
 // utilized by the Pointer struct
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum PointerType {
+    
     //simple types
     Bool,
     Char,
@@ -223,10 +228,10 @@ fn vartype_to_pointertype(var_type: &VarType) -> PointerType {
         VarType::Int16(_)   => return PointerType::Int16,
         VarType::Int32(_)   => return PointerType::Int32,
         VarType::Int64(_)   => return PointerType::Int64,
-        VarType::UInt8(_)    => return PointerType::UInt8,
-        VarType::UInt16(_)   => return PointerType::UInt16,
-        VarType::UInt32(_)   => return PointerType::UInt32,
-        VarType::UInt64(_)   => return PointerType::UInt64,
+        VarType::UInt8(_)   => return PointerType::UInt8,
+        VarType::UInt16(_)  => return PointerType::UInt16,
+        VarType::UInt32(_)  => return PointerType::UInt32,
+        VarType::UInt64(_)  => return PointerType::UInt64,
 
         VarType::Array(_)   => return PointerType::Array,
         VarType::Dict(_)    => return PointerType::Dict,
@@ -251,12 +256,6 @@ fn check_type_match(pointer_type: PointerType, var_type: VarType) -> bool {
 
 
 
-struct Instruction {
-    opcode: u8,
-    value: u32,
-    value1: u32
-
-}
 
 struct Function {
     return_type: PointerType,

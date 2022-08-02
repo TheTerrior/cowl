@@ -1,37 +1,34 @@
 use crate::memory::{VarType, Variable};
 
-// The form an instruction will be saved as in the processor, variable type will influence the body type
+// The data type that instructions are represented as, results in a tree
+// Note: the type of instruction dictates whether the body is a single instruction or a stream of instructions (a block)
 struct Instruction {
     opcode: i8,
-    body: Box<Instruction_Body>,
+    body: Instruction_Body,
 
 }
 
 // Used by the Instruction struct, more complex instructions will use the Block type rather than the Stream type
 enum Instruction_Body {
-    Stream(Vec<bool>),
-    Block(Vec<Instruction>),
+    Single(Vec<bool>),
+    Stream(Vec<Instruction>),
 }
 
 // TODO
-// Will receive the bit stream pop from it as needed to construct instructions; this function acts as this file's main function
-// Note: bit stream is reversed (first bit is at vector end) so that we can pop efficiently
-pub fn process_stream(bits: Vec<bool>) {
-    
+// Will receive the bit stream and pop from it as needed to construct instructions; this function acts as this file's main function
+// Produces an Instruction tree that we then pass to execute()
+// Note: bit stream parameter is reversed (first bit is at vector end) so that we can pop efficiently
+pub fn process_stream(mut bits: Vec<bool>) {
+    let mut instr: Vec<bool> = Vec::new();  //contains the newly popped instruction
+    let mut instr_tree: Vec<Instruction> = Vec::new();  //contains the tree of instructions (organizes itself as instructions are popped)
+    loop { //loop to collect all the instructions, filling up the Instruction tree as we go
+        
+        instr = bits.split_off(bits.len() - 8); //collect the next opcode
+    }
 }
 
 // TODO
-// Take in a list of Instructions and execute them
-fn execute(program: Instruction_Body) {
-
-    //filter out an invalid case
-    if let Instruction_Body::Stream(_) = program {
-        //we should not be here, something did not go to plan
-        return;
-    }
-    
-    //get the instruction list
-    if let Instruction_Body::Block(instructions) = program {
-        //execute the code here
-    }
+// Take in a Memory struct and a target function to run
+fn execute(program: Instruction_Body, function: i32) -> Option<Variable> {
+    return None;
 }
