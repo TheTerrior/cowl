@@ -105,6 +105,7 @@ impl Memory {
 pub struct Variable {
     data: VarType, //stores the type of variable and the data
     pointers: HashSet<usize>, //keeps a list of all the pointers that refer to this variable
+    block: Option<InstructionBody>, //list of instructions, only used if the variable is a function
 }
 
 impl Variable {
@@ -112,6 +113,7 @@ impl Variable {
         return Variable {
             data: data,
             pointers: HashSet::new(),
+            block: None,
         };
     }
 
@@ -146,6 +148,22 @@ impl Pointer {
     }
 }
 
+
+// The data type that instructions are represented as, results in a tree
+// Note: the type of instruction dictates whether the body is a single instruction or a stream of instructions (a block)
+#[derive(Clone)]
+pub struct Instruction {
+    opcode: i8,
+    body: InstructionBody,
+
+}
+
+// Used by the Instruction struct, more complex instructions will use the Block type rather than the Stream type
+#[derive(Clone)]
+pub enum InstructionBody {
+    Single(Vec<bool>),
+    Stream(Vec<Instruction>),
+}
 
 
 
@@ -255,10 +273,3 @@ fn check_type_match(pointer_type: PointerType, var_type: VarType) -> bool {
 }
 
 
-
-
-struct Function {
-    return_type: PointerType,
-    parameters: Vec<PointerType>,
-    instructions: Vec<Instruction>
-}

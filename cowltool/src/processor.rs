@@ -1,18 +1,5 @@
-use crate::memory::{VarType, Variable};
+use crate::memory::{VarType, Variable, Instruction, InstructionBody};
 
-// The data type that instructions are represented as, results in a tree
-// Note: the type of instruction dictates whether the body is a single instruction or a stream of instructions (a block)
-struct Instruction {
-    opcode: i8,
-    body: Instruction_Body,
-
-}
-
-// Used by the Instruction struct, more complex instructions will use the Block type rather than the Stream type
-enum Instruction_Body {
-    Single(Vec<bool>),
-    Stream(Vec<Instruction>),
-}
 
 // TODO
 // Will receive the bit stream and pop from it as needed to construct instructions; this function acts as this file's main function
@@ -29,6 +16,6 @@ pub fn process_stream(mut bits: Vec<bool>) {
 
 // TODO
 // Take in a Memory struct and a target function to run
-fn execute(program: Instruction_Body, function: i32) -> Option<Variable> {
+fn execute(program: InstructionBody, function: i32) -> Option<Variable> {
     return None;
 }
