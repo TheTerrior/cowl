@@ -60,10 +60,9 @@ func string_to_bytes(input string) []byte {
 			///fmt.Println("PADDED INPUT:", splicedInput)
 		}
 
-		//Convert a size 8 splicedInput into a Uint value using strconv.ParseUint
+		//Convert a size 8 splicedInput into a Uint8 value using strconv.ParseUint
 		if i, err := strconv.ParseUint(splicedInput, 2, 8); err != nil { //strconv.ParseInt(string, base, bitsize)
-			fmt.Println(err)
-			panic("Compiler Error")
+			check(err)
 		} else {
 			//fmt.Printf("%T, %v\n", uint8(i), uint8(i))
 			ret[retCrawler] = byte(uint8(i)) //i value is int64 by default from ParseUint
@@ -142,7 +141,7 @@ func testing() {
 	check(err)
 	defer file.Close()
 
-	var bytes_string string = "011000010110001001100011111"
+	var bytes_string string = "011000010110001001100011"
 	var bytes []byte = string_to_bytes(bytes_string)
 
 	file.Write(bytes)
