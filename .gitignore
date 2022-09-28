@@ -15,3 +15,5 @@
 # Haskell intermediate files
 *.hi
 *.o
+
+***nohup.out
