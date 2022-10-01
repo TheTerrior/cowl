@@ -1,6 +1,27 @@
-use std::{collections::{HashMap, HashSet}, rc::Rc, cell::RefCell};
+use std::{collections::{HashMap, HashSet}, rc::{Rc, Weak}, cell::RefCell};
+
+/*
+
+DESCRIPTION
+
+This file creates the entire memory model. 
+This layer is abstracted by the ALU.
+
+*/
 
 
+
+//
+// GENERIC
+//
+
+
+// Allows types to implement either a strong or weak Rc
+#[derive(Clone, Debug)]
+pub enum SmartRc<T> {
+    Strong(Rc<T>),
+    Weak(Weak<T>),
+}
 
 
 
@@ -16,53 +37,7 @@ pub struct Scope {
     pub pointers: Vec<Pointer>,                 //a Scope owns its set of Pointers, even though the Variables that the Pointers point to are shared
 }
 
-
-
-//
-//  VARIABLES
-//
-
-
-// Used to store a variable in the heap
-#[derive(Clone, Debug)]
-pub struct Variable {
-    pub value: VarType,
-    pub instructions: Option<Function>, //if this is Some, then "value"'s held value is disregarded in favor of "instruction"'s return value
-}
-
-
-// Utilized by the Variable struct
-#[derive(Clone, Debug)]
-pub enum VarType {
-
-    //simple types
-    Bool(bool),
-    Char(char),
-    Float32(f32),
-    Float64(f64),
-    Int8(i8),
-    Int16(i16),
-    Int32(i32),
-    Int64(i64),
-    UInt8(u8),
-    UInt16(u16),
-    UInt32(u32),
-    UInt64(u64),
-
-    //complex types, generally contain pointers to other data in the memory
-    Array(Vec<Rc<RefCell<Variable>>>),
-    Dict(HashMap<Rc<RefCell<Variable>>,Rc<RefCell<Variable>>>),
-    List(Vec<Rc<RefCell<Variable>>>),
-    Set(HashSet<Rc<RefCell<Variable>>>),
-    String(Vec<char>),                      //a vector of chars acts the same as runes, allows better flexibility
-    Struct(Vec<Rc<RefCell<Variable>>>),
-}
-
-
-// Utilized by the Variable struct
-#[derive(Clone, Debug)]
-pub struct Function {
-    pub instructions: Vec<String>,  //contains all the instructions
+pub struct StackFrame {
     pub scope: Rc<RefCell<Scope>>,
 }
 
@@ -77,7 +52,7 @@ pub struct Function {
 #[derive(Clone, Debug)]
 pub struct Pointer {
     pub var_type: PointerType,
-    pub var_index: Rc<RefCell<Variable>>,
+    pub var_ref: SmartRc<RefCell<Variable>>,  //must change between strong and weak
 }
 
 
@@ -100,15 +75,12 @@ pub enum PointerType {
     UInt64,
 
     //complex types
-    Array,  //internally equivalent to list
+    Array,
     Dict,
     List,
     Set,
-    String, //internally equivalent to list
-
-    //special types
-    Func,
-    Struct, //internally equivalent to list
+    String,
+    Struct,
 
     //weak types
     Dyn,    //will point to any variable type
@@ -117,3 +89,77 @@ pub enum PointerType {
     //function types
     Void,   //does not point to anything
 }
+
+
+
+//
+//  VARIABLES
+//
+
+
+// Used to store a value in the heap
+#[derive(Clone, Debug)]
+pub enum Variable {
+
+    //simple types
+    Bool(Box<bool>),
+    Char(Box<char>),
+    Float32(Box<f32>),
+    Float64(Box<f64>),
+    Int8(Box<i8>),
+    Int16(Box<i16>),
+    Int32(Box<i32>),
+    Int64(Box<i64>),
+    UInt8(Box<u8>),
+    UInt16(Box<u16>),
+    UInt32(Box<u32>),
+    UInt64(Box<u64>),
+
+    //complex types
+    Dict(Box<Dictionary>),
+    List(Box<List>),
+    Set(Box<Set>),
+    Struct(Box<Struct>),
+
+    //special types
+    Func(Box<Function>),
+}
+
+// Defines a Dictionary type
+#[derive(Clone, Debug)]
+pub struct Dictionary {
+    pub contains0: PointerType,
+    pub contains1: PointerType,
+    pub data: HashMap<Rc<RefCell<Variable>>,Rc<RefCell<Variable>>>,
+}
+
+// Defines a List type, which also provides functionality for String and Array
+#[derive(Clone, Debug)]
+pub struct List {
+    pub contains: PointerType,
+    pub data: Vec<Rc<RefCell<Variable>>>,
+}
+
+// Defines a Set type
+#[derive(Clone, Debug)]
+pub struct Set {
+    pub contains: PointerType,
+    pub data: HashSet<Rc<RefCell<Variable>>>,
+}
+
+// Defines a Struct type
+#[derive(Clone, Debug)]
+pub struct Struct {
+    pub contains: Vec<PointerType>,
+    pub data: Vec<Rc<RefCell<Variable>>>,
+}
+
+// Defines a Function type
+#[derive(Clone, Debug)]
+pub struct Function {
+    pub scope: SmartRc<RefCell<Scope>>, //must dynamically change between strong and weak
+    pub instructions: Vec<String>,  //contains all the instructions
+}
+
+
+
