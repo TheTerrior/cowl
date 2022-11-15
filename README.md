@@ -15,5 +15,8 @@ A machine code compiler may come in the future if I'm willing to take on the tas
 ## Installation
 Once Cowl is ready to deploy, build and install instructions will be provided here.
 
+## License
+This software is dual-licensed under GPL Version 2 and/or GPL Version 3. You may use this software according to these licenses as is most appropriate for your project on a case-by-case basis. Both licenses can be found in the root directory of the repository.
+
 ## Misc
 The name for Cowl is inspired by a cowl neck, sometimes present on sweaters and other similar articles of clothing.
